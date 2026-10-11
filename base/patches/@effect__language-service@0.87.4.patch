@@ -1,0 +1,43 @@
+diff --git a/cli.js b/cli.js
+--- a/cli.js
++++ b/cli.js
+@@ -36568,14 +36568,9 @@
+       reporter = yield* withDiagnosticsProgressFormatter(reporter);
+     }
+     yield* reporter.onBegin(state);
+-    const disposeIfLanguageServiceChanged = (languageService) => {
+-      if (state.languageService !== languageService) {
+-        state.languageService?.dispose();
+-        state.languageService = languageService;
+-      }
+-    };
+     for (const batch of chunksOf(filesToCheck, BATCH_SIZE2)) {
+       const { service: service4 } = (0, import_project_service2.createProjectService)({ options: { loadTypeScriptPlugins: false } });
++      const languageServices = new Set();
+       for (const filePath of batch) {
+         state.currentFileIndex++;
+         yield* reporter.onFile(state, filePath);
+@@ -36585,7 +36580,8 @@
+           if (!scriptInfo) continue;
+           const projectInfo = scriptInfo.getDefaultProject();
+           const languageService = projectInfo.getLanguageService(true);
+-          disposeIfLanguageServiceChanged(languageService);
++          languageServices.add(languageService);
++          state.languageService = languageService;
+           const program = languageService.getProgram();
+           if (!program) continue;
+           const sourceFile = program.getSourceFile(filePath);
+@@ -36634,9 +36630,12 @@
+           service4.closeClientFile(filePath);
+         }
+       }
++      for (const languageService of languageServices) {
++        languageService.dispose();
++      }
++      state.languageService = void 0;
+       yield* yieldNow2;
+     }
+-    disposeIfLanguageServiceChanged(void 0);
+     yield* reporter.onEnd(state);
+     const hasFailures = state.errorsCount > 0 || strict && state.warningsCount > 0;
+     if (hasFailures) return yield* sync2(() => process.exit(1));

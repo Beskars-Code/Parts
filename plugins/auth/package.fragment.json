@@ -1,0 +1,24 @@
+{
+  "scripts": {
+    "agent:login": "bun scripts/development/agent-login.mjs",
+    "codegen:confect": "bun --bun run confect codegen",
+    "lint:confect": "bun tooling/lint/run.mjs --confect"
+  },
+  "dependencies": {
+    "@confect/core": "10.0.0",
+    "@confect/react": "10.0.0",
+    "@confect/server": "10.0.0",
+    "@convex-dev/better-auth": "0.12.5",
+    "better-auth": "1.6.33",
+    "convex-helpers": "0.1.128",
+    "effect": "4.0.2"
+  },
+  "devDependencies": {
+    "@confect/cli": "10.0.0"
+  },
+  "patchedDependencies": {
+    "@confect/core@10.0.0": "patches/@confect__core@10.0.0.patch",
+    "convex-helpers@0.1.128": "patches/convex-helpers@0.1.128.patch",
+    "@convex-dev/better-auth@0.12.5": "patches/@convex-dev%2Fbetter-auth@0.12.5.patch"
+  }
+}

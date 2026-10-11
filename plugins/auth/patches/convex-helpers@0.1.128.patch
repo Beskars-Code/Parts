@@ -1,0 +1,36 @@
+diff --git a/react/cache/hooks.ts b/react/cache/hooks.ts
+--- a/react/cache/hooks.ts
++++ b/react/cache/hooks.ts
+@@ -163,7 +163,7 @@
+   // This may be undefined either because the upstream
+   // value is actually undefined, or because the value
+   // was not sent to `useQueries` due to "skip".
+-  const result = results._default;
++  const result = results["_default"];
+   if (result instanceof Error) {
+     throw result;
+   }
+diff --git a/react/cache/provider.tsx b/react/cache/provider.tsx
+--- a/react/cache/provider.tsx
++++ b/react/cache/provider.tsx
+@@ -32,7 +32,19 @@
+     );
+   }
+   const registry = useMemo(
+-    () => new CacheRegistry(convex, { debug, expiration, maxIdleEntries }),
++    () => {
++      const options: ConvexQueryCacheOptions = {};
++      if (debug !== undefined) {
++        options.debug = debug;
++      }
++      if (expiration !== undefined) {
++        options.expiration = expiration;
++      }
++      if (maxIdleEntries !== undefined) {
++        options.maxIdleEntries = maxIdleEntries;
++      }
++      return new CacheRegistry(convex, options);
++    },
+     [convex, debug, expiration, maxIdleEntries],
+   );
+   return (

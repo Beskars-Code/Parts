@@ -1,0 +1,14 @@
+{
+    "$schema":  "https://unpkg.com/knip@6.40.0/schema.json",
+    "entry":  [
+                  "src/routes/**/*.{ts,tsx}"
+              ],
+    "project":  [
+                    "src/**/*.{ts,tsx,css}",
+                    "convex/**/*.ts",
+                    "tests/**/*.{ts,tsx}",
+                    "tooling/**/*.mjs",
+                    "*.{ts,mjs}",
+                    "!src/routeTree.gen.ts"
+                ]
+}

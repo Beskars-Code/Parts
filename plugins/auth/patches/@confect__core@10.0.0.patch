@@ -1,0 +1,268 @@
+diff --git a/dist/SchemaToValidator.d.ts b/dist/SchemaToValidator.d.ts
+index 8d86d571083c2788ed40c7f50c9dfe412fd1eaea..093d2f09903698c3d34b4f4d82fbab3ec4cd7673 100644
+--- a/dist/SchemaToValidator.d.ts
++++ b/dist/SchemaToValidator.d.ts
+@@ -3,7 +3,7 @@ import * as Effect from "effect/Effect";
+ import * as Schema from "effect/Schema";
+ import * as SchemaAST from "effect/SchemaAST";
+ import * as GenericId from "./GenericId";
+-import type { IsAny, IsOptional, IsRecord, IsRecursive, IsUnion, TypeError, UnionToTuple } from "./Types";
++import type { IsAny, IsOptional, IsRecord, IsRecursive, IsUnion, IsUnknown, TypeError, UnionToTuple } from "./Types";
+ export declare const compileArgsSchema: <ConfectValue, ConvexValue>(argsSchema: Schema.Codec<ConfectValue, ConvexValue>) => PropertyValidators;
+ export declare const compileReturnsSchema: <ConfectValue, ConvexValue>(schema: Schema.Codec<ConfectValue, ConvexValue>) => Validator<any, any, any>;
+ /**
+@@ -16,16 +16,24 @@ type ReadonlyArrayValue = readonly ReadonlyValue[];
+ export type ReadonlyRecordValue = {
+     readonly [key: string]: ReadonlyValue | undefined;
+ };
+-type MutableValue<T> = T extends ReadonlyArray<infer El> ? MutableValue<El>[] : T extends ReadonlyRecordValue ? {
++type MutableValue<T> = IsAny<T> extends true ? any : unknown extends T ? any : T extends ReadonlyArray<infer El> ? MutableValue<El>[] : T extends object ? T extends {
++    readonly [key: string]: unknown;
++} ? {
+     -readonly [K in keyof T]: MutableValue<Exclude<T[K], undefined>>;
+-} : T;
+-export type ValueToValidator<Vl> = [Vl] extends [never] ? never : IsAny<Vl> extends true ? VAny : [Vl] extends [null] ? VNull : [Vl] extends [boolean] ? [boolean] extends [Vl] ? VBoolean : VLiteral<Vl> : IsUnion<Vl> extends true ? IsRecursive<Vl> extends true ? VAny : [Vl] extends [ReadonlyValue] ? UnionValueToValidator<Vl> : TypeError<"Provided value is not a valid Convex value", Vl> : [Vl] extends [number] ? [number] extends [Vl] ? VFloat64 : VLiteral<Vl> : [Vl] extends [bigint] ? [bigint] extends [Vl] ? VInt64 : VLiteral<Vl> : [Vl] extends [string] ? Vl extends {
++} : T : T;
++export type ValueToValidator<Vl> = [Vl] extends [never] ? never : IsAny<Vl> extends true ? VAny : IsUnknown<Vl> extends true ? VAny : [Vl] extends [null] ? VNull : [Vl] extends [boolean] ? [boolean] extends [Vl] ? VBoolean : VLiteral<Vl> : IsUnion<Vl> extends true ? IsRecursive<Vl> extends true ? VAny : [Vl] extends [ReadonlyValue] ? UnionValueToValidator<Vl> : TypeError<"Provided value is not a valid Convex value", Vl> : [Vl] extends [number] ? [number] extends [Vl] ? VFloat64 : VLiteral<Vl> : [Vl] extends [bigint] ? [bigint] extends [Vl] ? VInt64 : VLiteral<Vl> : [Vl] extends [string] ? Vl extends {
+     __tableName: infer TableName extends string;
+-} ? VId<GenericId.GenericId<TableName>> : [string] extends [Vl] ? VString : VLiteral<Vl> : [Vl] extends [ArrayBuffer] ? VBytes : IsRecursive<Vl> extends true ? VAny : [Vl] extends [ReadonlyValue] ? Vl extends ReadonlyArray<ReadonlyValue> ? ArrayValueToValidator<Vl> : Vl extends ReadonlyRecordValue ? RecordValueToValidator<Vl> : TypeError<"Unexpected value", Vl> : TypeError<"Provided value is not a valid Convex value", Vl>;
++} ? VId<GenericId.GenericId<TableName>> : [string] extends [Vl] ? VString : VLiteral<Vl> : [Vl] extends [ArrayBuffer] ? VBytes : IsRecursive<Vl> extends true ? VAny : [Vl] extends [ReadonlyValue] ? Vl extends ReadonlyArray<ReadonlyValue> ? ArrayValueToValidator<Vl> : Vl extends ReadonlyRecordValue ? RecordValueToValidator<Vl> : TypeError<"Unexpected value", Vl> : [Vl] extends [
++    {
++        readonly [key: string]: unknown;
++    }
++] ? RecordValueToValidator<Vl> : TypeError<"Provided value is not a valid Convex value", Vl>;
+ type ArrayValueToValidator<Vl extends ReadonlyArray<ReadonlyValue>> = Vl extends ReadonlyArray<infer El extends ReadonlyValue> ? ValueToValidator<El> extends infer Vd extends Validator<any, any, any> ? VArray<MutableValue<El[]>, Vd> : never : never;
+-type RecordValueToValidator<Vl> = Vl extends ReadonlyRecordValue ? {
+-    -readonly [K in keyof Vl]-?: IsAny<Vl[K]> extends true ? IsOptional<Vl, K> extends true ? VOptional<VAny> : VAny : UndefinedOrValueToValidator<Vl[K]>;
+-} extends infer VdRecord extends Record<string, any> ? MutableValue<Vl> extends infer VlRecord extends Record<string, any> ? IsRecord<VlRecord> extends true ? VRecord<VlRecord, VString, VdRecord[keyof VdRecord]> : VObject<VlRecord, VdRecord> : never : never : never;
++type RecordValueToValidator<Vl> = Vl extends {
++    readonly [key: string]: unknown;
++} ? {
++    -readonly [K in keyof Vl]-?: IsAny<Vl[K]> extends true ? IsOptional<Vl, K> extends true ? VOptional<VAny> : VAny : IsUnknown<Vl[K]> extends true ? IsOptional<Vl, K> extends true ? VOptional<VAny> : VAny : Vl[K] extends ReadonlyValue | undefined ? UndefinedOrValueToValidator<Vl[K]> : TypeError<"Provided value is not a valid Convex value", Vl[K]>;
++} extends infer VdRecord extends Record<string, any> ? VdRecord[keyof VdRecord] extends Validator<any, any, any> ? MutableValue<Vl> extends infer VlRecord extends Record<string, any> ? IsRecord<VlRecord> extends true ? VRecord<VlRecord, VString, VdRecord[keyof VdRecord]> : VObject<VlRecord, VdRecord> : never : TypeError<"Provided value is not a valid Convex value", Vl> : never : never;
+ export type UndefinedOrValueToValidator<Vl extends ReadonlyValue | undefined> = undefined extends Vl ? [Vl] extends [(infer Val extends ReadonlyValue) | undefined] ? ValueToValidator<Val> extends infer Vd extends Validator<any, "required", any> ? VOptional<Vd> : never : never : [Vl] extends [ReadonlyValue] ? ValueToValidator<Vl> : never;
+ type UnionValueToValidator<Vl extends ReadonlyValue> = [Vl] extends [
+     ReadonlyValue
+@@ -95,5 +103,5 @@ declare const OptionalTupleElementsAreNotSupportedError_base: new <A extends Rec
+ export declare class OptionalTupleElementsAreNotSupportedError extends OptionalTupleElementsAreNotSupportedError_base {
+     get message(): string;
+ }
+-export {};
++export { };
+ //# sourceMappingURL=SchemaToValidator.d.ts.map
+diff --git a/dist/Types.d.ts b/dist/Types.d.ts
+index 8509ff9caa34048679cceec156d10ae125f446d8..467d011dadf5b41b3c75634e8d5180640fb64b78 100644
+--- a/dist/Types.d.ts
++++ b/dist/Types.d.ts
+@@ -3,6 +3,7 @@ import type { GenericId } from "convex/values";
+ import type { Brand } from "effect";
+ export type IsOptional<T, K extends keyof T> = {} extends Pick<T, K> ? true : false;
+ export type IsAny<T> = 0 extends 1 & T ? true : false;
++export type IsUnknown<T> = IsAny<T> extends true ? false : unknown extends T ? true : false;
+ export type IsUnion<T, U extends T = T> = T extends unknown ? [U] extends [T] ? false : true : never;
+ export type IsValueLiteral<Vl> = [Vl] extends [never] ? never : IsUnion<Vl> extends true ? false : [Vl] extends [string | number | bigint | boolean] ? [string] extends [Vl] ? false : [number] extends [Vl] ? false : [boolean] extends [Vl] ? false : [bigint] extends [Vl] ? false : true : false;
+ /**
+@@ -37,5 +38,5 @@ export type BaseDatabaseReader<DataModel extends GenericDataModel> = {
+     get: GenericDatabaseReader<DataModel>["get"];
+     query: GenericDatabaseReader<DataModel>["query"];
+ };
+-export {};
++export { };
+ //# sourceMappingURL=Types.d.ts.map
+diff --git a/src/SchemaToValidator.ts b/src/SchemaToValidator.ts
+index 94f46ab38e064297dfbd87f233c5e9d81a7c69a2..57f5baa8ced9eebbdeb6d97fed50869d986eb2e0 100644
+--- a/src/SchemaToValidator.ts
++++ b/src/SchemaToValidator.ts
+@@ -1,26 +1,26 @@
+ import type {
+-  PropertyValidators,
+-  Validator,
+-  VAny,
+-  VArray,
+-  VBoolean,
+-  VBytes,
+-  VFloat64,
+-  VId,
+-  VInt64,
+-  VLiteral,
+-  VNull,
+-  VObject,
+-  VOptional,
+-  VRecord,
+-  VString,
+-  VUnion,
++    PropertyValidators,
++    Validator,
++    VAny,
++    VArray,
++    VBoolean,
++    VBytes,
++    VFloat64,
++    VId,
++    VInt64,
++    VLiteral,
++    VNull,
++    VObject,
++    VOptional,
++    VRecord,
++    VString,
++    VUnion,
+ } from "convex/values";
+ import { v } from "convex/values";
+-import { pipe } from "effect/Function";
+ import * as Array from "effect/Array";
+ import * as Data from "effect/Data";
+ import * as Effect from "effect/Effect";
++import { pipe } from "effect/Function";
+ import * as Match from "effect/Match";
+ import * as Number from "effect/Number";
+ import * as Option from "effect/Option";
+@@ -31,13 +31,14 @@ import * as String from "effect/String";
+ 
+ import * as GenericId from "./GenericId";
+ import type {
+-  IsAny,
+-  IsOptional,
+-  IsRecord,
+-  IsRecursive,
+-  IsUnion,
+-  TypeError,
+-  UnionToTuple,
++    IsAny,
++    IsOptional,
++    IsRecord,
++    IsRecursive,
++    IsUnion,
++    IsUnknown,
++    TypeError,
++    UnionToTuple,
+ } from "./Types";
+ 
+ // Args
+@@ -120,17 +121,29 @@ export type ReadonlyRecordValue = {
+ };
+ 
+ type MutableValue<T> =
+-  T extends ReadonlyArray<infer El>
+-    ? MutableValue<El>[]
+-    : T extends ReadonlyRecordValue
+-      ? { -readonly [K in keyof T]: MutableValue<Exclude<T[K], undefined>> }
+-      : T;
++  IsAny<T> extends true
++    ? any
++    : unknown extends T
++      ? any
++      : T extends ReadonlyArray<infer El>
++        ? MutableValue<El>[]
++        : T extends object
++          ? T extends { readonly [key: string]: unknown }
++            ? {
++                -readonly [K in keyof T]: MutableValue<
++                  Exclude<T[K], undefined>
++                >;
++              }
++            : T
++          : T;
+ 
+ export type ValueToValidator<Vl> = [Vl] extends [never]
+   ? never
+   : IsAny<Vl> extends true
+     ? VAny
+-    : [Vl] extends [null]
++    : IsUnknown<Vl> extends true
++      ? VAny
++      : [Vl] extends [null]
+       ? VNull
+       : [Vl] extends [boolean]
+         ? [boolean] extends [Vl]
+@@ -168,10 +181,14 @@ export type ValueToValidator<Vl> = [Vl] extends [never]
+                         : Vl extends ReadonlyRecordValue
+                           ? RecordValueToValidator<Vl>
+                           : TypeError<"Unexpected value", Vl>
+-                      : TypeError<
+-                          "Provided value is not a valid Convex value",
+-                          Vl
+-                        >;
++                      : [Vl] extends [
++                            { readonly [key: string]: unknown },
++                          ]
++                        ? RecordValueToValidator<Vl>
++                        : TypeError<
++                            "Provided value is not a valid Convex value",
++                            Vl
++                          >;
+ 
+ type ArrayValueToValidator<Vl extends ReadonlyArray<ReadonlyValue>> =
+   Vl extends ReadonlyArray<infer El extends ReadonlyValue>
+@@ -180,19 +197,32 @@ type ArrayValueToValidator<Vl extends ReadonlyArray<ReadonlyValue>> =
+       : never
+     : never;
+ 
+-type RecordValueToValidator<Vl> = Vl extends ReadonlyRecordValue
++type RecordValueToValidator<Vl> = Vl extends {
++  readonly [key: string]: unknown;
++}
+   ? {
+       -readonly [K in keyof Vl]-?: IsAny<Vl[K]> extends true
+         ? IsOptional<Vl, K> extends true
+           ? VOptional<VAny>
+           : VAny
+-        : UndefinedOrValueToValidator<Vl[K]>;
++        : IsUnknown<Vl[K]> extends true
++          ? IsOptional<Vl, K> extends true
++            ? VOptional<VAny>
++            : VAny
++          : Vl[K] extends ReadonlyValue | undefined
++            ? UndefinedOrValueToValidator<Vl[K]>
++            : TypeError<
++                "Provided value is not a valid Convex value",
++                Vl[K]
++              >;
+     } extends infer VdRecord extends Record<string, any>
+-    ? MutableValue<Vl> extends infer VlRecord extends Record<string, any>
+-      ? IsRecord<VlRecord> extends true
+-        ? VRecord<VlRecord, VString, VdRecord[keyof VdRecord]>
+-        : VObject<VlRecord, VdRecord>
+-      : never
++    ? VdRecord[keyof VdRecord] extends Validator<any, any, any>
++      ? MutableValue<Vl> extends infer VlRecord extends Record<string, any>
++        ? IsRecord<VlRecord> extends true
++          ? VRecord<VlRecord, VString, VdRecord[keyof VdRecord]>
++          : VObject<VlRecord, VdRecord>
++        : never
++      : TypeError<"Provided value is not a valid Convex value", Vl>
+     : never
+   : never;
+ 
+diff --git a/src/Types.ts b/src/Types.ts
+index a7f72e5be024e013fe86ca06abcdc702aa4a90ac..c8a40d69b36b23471befe6b2b7cae733823342a3 100644
+--- a/src/Types.ts
++++ b/src/Types.ts
+@@ -1,9 +1,9 @@
+ import type {
+-  DocumentByName,
+-  FieldTypeFromFieldPath,
+-  GenericDatabaseReader,
+-  GenericDataModel,
+-  TableNamesInDataModel,
++    DocumentByName,
++    FieldTypeFromFieldPath,
++    GenericDatabaseReader,
++    GenericDataModel,
++    TableNamesInDataModel,
+ } from "convex/server";
+ import type { GenericId } from "convex/values";
+ import type { Brand } from "effect";
+@@ -13,6 +13,12 @@ export type IsOptional<T, K extends keyof T> =
+ 
+ export type IsAny<T> = 0 extends 1 & T ? true : false;
+ 
++export type IsUnknown<T> = IsAny<T> extends true
++  ? false
++  : unknown extends T
++    ? true
++    : false;
++
+ export type IsUnion<T, U extends T = T> = T extends unknown
+   ? [U] extends [T]
+     ? false

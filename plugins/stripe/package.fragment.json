@@ -1,0 +1,20 @@
+{
+  "scripts": {
+    "stripe:setup": "bun scripts/stripe/setup-stripe.mjs",
+    "stripe:check": "bun scripts/stripe/setup-stripe.mjs --check",
+    "stripe:webhook": "bun scripts/stripe/stripe-webhook.mjs",
+    "stripe:webhook:check": "bun scripts/stripe/stripe-webhook.mjs --check"
+  },
+  "dependencies": {
+    "stripe": "23.0.0",
+    "@confect/core": "10.0.0",
+    "@confect/server": "10.0.0",
+    "effect": "4.0.2"
+  },
+  "devDependencies": {
+    "@confect/cli": "10.0.0"
+  },
+  "patchedDependencies": {
+    "@confect/core@10.0.0": "patches/@confect__core@10.0.0.patch"
+  }
+}

@@ -1,0 +1,146 @@
+:root {
+	--ease-standard: cubic-bezier(0.2, 0, 0, 1);
+	--duration-page-transition: 500ms;
+	--duration-theme-transition: 700ms;
+	--ease-page-transition: ease-in-out;
+	--ease-theme-transition: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+::view-transition-group(root),
+::view-transition-old(root),
+::view-transition-new(root) {
+	animation: none;
+	mix-blend-mode: normal;
+}
+
+.page-transition {
+	view-transition-name: page;
+}
+
+::view-transition-group(page) {
+	animation: none;
+}
+
+@keyframes page-fade-in {
+	from {
+		opacity: 0;
+	}
+}
+
+@keyframes page-fade-out {
+	to {
+		opacity: 0;
+	}
+}
+
+@keyframes page-blur-out {
+	from {
+		filter: blur(0);
+		opacity: 1;
+		transform: scale(1);
+	}
+	to {
+		filter: blur(12px);
+		opacity: 0;
+		transform: scale(1.02);
+	}
+}
+
+@keyframes page-blur-in {
+	from {
+		filter: blur(12px);
+		opacity: 0;
+		transform: scale(0.98);
+	}
+	to {
+		filter: blur(0);
+		opacity: 1;
+		transform: scale(1);
+	}
+}
+
+::view-transition-old(page) {
+	animation: page-blur-out var(--duration-page-transition) var(--ease-page-transition) both;
+}
+
+::view-transition-new(page) {
+	animation: page-blur-in var(--duration-page-transition) var(--ease-page-transition) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	::view-transition-old(page) {
+		animation: page-fade-out 120ms var(--ease-standard) both;
+	}
+
+	::view-transition-new(page) {
+		animation: page-fade-in 120ms var(--ease-standard) both;
+	}
+}
+
+:root:active-view-transition-type(theme) * {
+	view-transition-name: none !important;
+}
+
+@keyframes theme-polygon-dark {
+	from {
+		clip-path: polygon(50% -71%, -50% 71%, -50% 71%, 50% -71%);
+	}
+	to {
+		clip-path: polygon(50% -71%, -50% 71%, 50% 171%, 171% 50%);
+	}
+}
+
+@keyframes theme-polygon-light {
+	from {
+		clip-path: polygon(171% 50%, 50% 171%, 50% 171%, 171% 50%);
+	}
+	to {
+		clip-path: polygon(171% 50%, 50% 171%, -50% 71%, 50% -71%);
+	}
+}
+
+:root.dark:active-view-transition-type(theme)::view-transition-new(root) {
+	animation: theme-polygon-dark var(--duration-theme-transition) var(--ease-theme-transition) both;
+}
+
+:root:not(.dark):active-view-transition-type(theme)::view-transition-new(root) {
+	animation: theme-polygon-light var(--duration-theme-transition) var(--ease-theme-transition) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	:root:active-view-transition-type(theme)::view-transition-old(root),
+	:root:active-view-transition-type(theme)::view-transition-new(root) {
+		animation: none;
+	}
+}
+
+.vt-public-nav {
+	view-transition-name: public-nav;
+}
+
+.vt-cookie-banner {
+	view-transition-name: cookie-banner;
+}
+
+.vt-news-strip {
+	view-transition-name: news-strip;
+}
+
+.vt-app-tab-bar {
+	view-transition-name: app-tab-bar;
+}
+
+::view-transition-group(public-nav),
+::view-transition-old(public-nav),
+::view-transition-new(public-nav),
+::view-transition-group(cookie-banner),
+::view-transition-old(cookie-banner),
+::view-transition-new(cookie-banner),
+::view-transition-group(news-strip),
+::view-transition-old(news-strip),
+::view-transition-new(news-strip),
+::view-transition-group(app-tab-bar),
+::view-transition-old(app-tab-bar),
+::view-transition-new(app-tab-bar) {
+	animation: none;
+}

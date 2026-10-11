@@ -1,0 +1,10 @@
+{
+	"extends": "../../tsconfig.json",
+	"compilerOptions": {
+		"target": "ESNext",
+		"lib": ["ES2023", "dom"],
+		"incremental": false
+	},
+	"include": ["../../confect/**/*.ts"],
+	"exclude": ["../../node_modules", "../../confect/_generated"]
+}

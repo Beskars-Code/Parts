@@ -1,0 +1,105 @@
+# Base project template
+
+Copy the contents of this directory into a new project root, merge with any existing files, and rename `parts-project` in `package.json`. This is a minimal starting repo with a TanStack app, Tailwind stylesheet, empty Convex configuration, strict tooling, and project guidance. Auth and product features are selected and connected in the destination.
+
+Agents follow the project [instructions](instructions/README.md). After copying, install with Bun and run `bun run dev` to generate the route tree and open the starter page. Configure the new project's backend with `bun run dev:convex` when ready to connect Convex.
+
+## Included
+
+- A Bun package manifest and minimal app for TanStack Start, React, TypeScript, Convex, and Tailwind.
+- Vite and Tailwind configuration, strict TypeScript settings, Oxlint, ESLint, Knip, and custom lint rules.
+- Browser log and unhandled-error forwarding into the Vite development terminal, with terminal output preserved between updates.
+- Editable shadcn-compatible theme tokens, a persisted Light/Dark/System picker, and page/theme transitions adapted from Apollo-Predictions.
+- English-default `use-intl` messages, typed translation keys, and server-delivered route catalogs adapted from Apollo Labs.
+- A [route and owner-based test layout](tests/README.md) with Vitest 5.0.3 configured; no product test cases are included.
+- Matching Convex and Effect language-service patches from Apollo.
+- Project agent instructions, architecture and design documentation, and a [plain Markdown verification template](verifications/README.md) outside `docs/`.
+
+Auth, Stripe, Effect/Confect workflows, OpenRouter, shadcn setup, shaders, and Tauri are selected modules or destination setup choices. Their absence from the base dependency list does not change the preferred stack; they are added when adopted rather than installed unused. Effect diagnostic tooling is included so it is ready when workflows are added.
+
+## Commands
+
+| Command | Purpose |
+| --- | --- |
+| `bun run dev` | Start the destination TanStack app on port 3000 |
+| `bun run dev:convex` | Start the destination Convex watcher |
+| `bun run build` | Build the destination app |
+| `bun run preview` | Preview its build |
+| `bun run lint` | Run structure and message-catalog checks, Oxlint, full ESLint, and Effect diagnostics for existing source projects |
+| `bun run lint:structure` | Check code-file length and direct folder code-file counts |
+| `bun run lint:i18n` | Check route catalog ownership, locale key parity, and catalog/payload size limits |
+| `bun run lint:fix` | Apply supported lint fixes; diagnostics still fail on remaining errors |
+| `bun run typecheck` | Check app TypeScript |
+| `bun run knip` | Find unused source, exports, dependencies, and unresolved imports |
+| `bun run check` | Run lint, typecheck, and Knip |
+| `bun run test` | Run the destination's accepted Vitest cases once |
+
+Module package fragments add commands such as `agent:login`, `codegen:confect`, and `stripe:check`. Add cases only after the user accepts the specific tests. The test infrastructure is ready, but a pristine starter has no test files and its test command fails with "No test files found"; this is not a passing suite.
+
+Vite's [browser console forwarding](https://vite.dev/config/server-options#server-forwardconsole) is explicitly enabled for `log`, `info`, `warn`, `error`, and `debug`, plus uncaught errors and unhandled rejections. Agents can read client-side events alongside server logs in the development terminal. The dev server fails if its chosen port is occupied instead of silently moving to another origin.
+
+## Quality policy
+
+Cyclomatic complexity is capped at **6** in ESLint and Oxlint. Both treat violations as errors. Warnings and unused suppression directives fail, and inline lint configuration is disabled. Full ESLint remains a deliberate fallback for rules Oxlint does not cover.
+
+Structure warnings fail too: handwritten code files may have **1,000 physical lines** (including comments and blanks), and folders may contain **8 direct handwritten code files**. Findings tell agents to split by responsibility and organize related files in named subfolders. The structure check always scans the whole project, including on `lint:fix` or Confect-only lint runs; it does not move files automatically.
+
+Code includes JavaScript/TypeScript variants, CSS/SCSS/Sass/Less, Rust, and GLSL/vertex/fragment/WGSL shaders. Docs, JSON configuration, patches, and subdirectories do not count as code files. Generated directories (`_generated`, `__generated__`, `generated`), `.gen.`/`.generated.` filenames, and recognized leading generated comment banners are excluded from both rules. Git metadata and `node_modules` are skipped at every depth. Standard root build/cache output, coverage, `target/`, `src-tauri/target/`, and verification evidence are skipped; nested handwritten concerns such as `scripts/build/` are checked. Keep these exclusions for actual generated/output files; never add a generated marker to handwritten code to silence a warning.
+
+TypeScript is strict, including unchecked indexes, exact optional properties, explicit returns, and unknown catch values. The lint policy rejects unsafe casts, `any`, floating promises, dynamic imports, React effect hooks, result bags, invalid Convex function contracts, nondeterministic queries, and unbounded Confect reads. Accessibility, import ordering, cycles, filenames, and app exports are checked too.
+
+Both linters enforce `standards/no-hardcoded-ui-text` as an error in product `src`; generated source, tests, and tooling are exempt. It rejects literal UI copy in JSX, copy-bearing attributes and metadata, toast calls, and native UI writes, including same-file constant aliases. It recognizes translators created by actual `use-intl` imports: translation keys are allowed, but static text passed as interpolation values is rejected. Technical strings such as routes, CSS classes, identifiers, and internal diagnostics remain allowed outside copy-bearing sinks.
+
+All user-facing copy must be translated, including data beyond the rule's static reach. Present backend errors through structured codes or translation keys and translate them in the UI instead of rendering raw English error strings. Review arbitrary imported data and helper output at their presentation boundaries; the AST rule does not prove that every such flow is translated.
+
+Knip's entry list represents real app routes and tooling boundaries. When adopting Confect or a native Convex component, add only its actual registered spec, implementation, schema, and component entries. Do not mark every service file as an entry or blanket-ignore dependencies to obtain a green result.
+
+The lint runner invokes Effect diagnostics only for source areas that exist. A populated `convex/` needs its destination-generated `convex/tsconfig.json`; Confect uses `tooling/lint/confect-tsconfig.json`. A missing config for existing source fails instead of silently skipping checks.
+
+## Theme
+
+Edit [src/styles.css](src/styles.css) to brand an app. The `:root` block owns the light palette and base radius; its `@variant dark` block owns dark overrides. Shared tokens use shadcn's semantic names, including surface/foreground pairs, primary, secondary, muted, accent, destructive, border, input, ring, charts, and sidebar colors. Tailwind's `@theme inline` exposes utilities such as `bg-background`, `text-foreground`, `bg-primary`, and `rounded-lg`.
+
+The root [ThemeProvider](src/components/theme/theme-provider.tsx) uses `next-themes` 0.4.6 and the shared [theme store](src/components/theme/theme-transition-store.ts). The picker saves Light/Dark/System in localStorage under `theme`. System resolves the OS preference to one `.light` or `.dark` root class and updates when that preference changes. With neither class present, including the server-rendered CSS fallback, the stylesheet and `dark:` variant follow the OS directly. Use [useThemeTransition](src/components/theme/use-theme-transition.ts) for changes instead of setting root classes yourself.
+
+shadcn components remain opt-in. When initializing them, point the CLI at `src/styles.css` with CSS variables enabled and preserve these tokens instead of adding another palette. See the [shadcn theme convention](https://ui.shadcn.com/docs/theming) and [Tailwind custom variants](https://tailwindcss.com/docs/adding-custom-styles#adding-custom-variants).
+
+## Transitions
+
+[PageTransition](src/components/page-transition/page-transition.tsx) wraps the root route's `<Outlet />` in a DOM element with `view-transition-name: page`. The router enables `defaultViewTransition: true`, so TanStack starts the native browser transition when route content changes. The named page snapshot blurs, fades, and scales slightly over 500ms. Keep persistent navigation, sidebars, and other app chrome outside this capture region. TanStack owns page transitions; do not add a second React `ViewTransition` engine around the outlet.
+
+Theme changes use a typed `theme` browser transition and reveal the new root palette through a polygon over 700ms. The direction follows the resolved palette, including OS changes while System is selected. During this transition, CSS suppresses descendant capture names so the page and chrome are one root image. [src/styles/transitions.css](src/styles/transitions.css) owns motion tokens, animations, and still-chrome classes. Reduced motion uses a 120ms opacity-only page fade and immediate theme changes. Unsupported browsers still navigate and change themes without animation. Run the [theme and transition recipe](verifications/features/theme-and-transitions.md) in the destination to prove live behavior.
+
+## Localization
+
+[src/i18n/](src/i18n/config.ts) owns locale metadata, server catalog loading, route request functions, the provider, and `use-intl` type augmentation. English (`en`) is the default and the only installed base locale. Route loaders resolve the `NEXT_LOCALE` cookie against registered locales; missing or unsupported values fall back to English. Their message payloads supply `<html lang>`, translated metadata, and the client provider. Locale-dependent requests use private, uncached responses.
+
+The shared config explicitly uses UTC for formatting on the server and in the browser, avoiding environment-dependent time-zone differences. Set a different explicit product time zone there when the app needs it; keep metadata and client formatting on the same configuration.
+
+Keep UI copy under `locales/<locale>/<route-owner>/`, with concern files inside each route folder. The base has `locales/en/__root/theme.json`, `__root/language.json`, and `index/page.json`. They own the distinct `theme`, `language`, and `home` namespaces; leaf names such as `label` can repeat within different namespaces. Use typed calls such as `useTranslations("theme")` in components. Preserve route groups and `$parameter` names when adding nested route owners.
+
+Runtime catalog imports stay in `.server.ts` modules. UI providers receive messages from loader data instead of importing the catalog registry. The root loads its shared scope; the index route loads its page scope and combines it with the parent messages for its provider. English type augmentation uses type-only imports, which do not bring JSON into the browser bundle. Installing French registers its matching server catalogs; it does not add all languages to the initial client payload.
+
+Follow the [add a translated page instructions](instructions/README.md#add-a-translated-page) when creating a route. Register its English scope, add a request module with a fixed scope, and extend the `use-intl` `AppConfig.Messages` type along with its loader and provider.
+
+Initial SSR carries shell and current-page messages in loader data, with no separate initial browser catalog fetch. Later page navigation requests its page scope. TanStack import protection is configured to fail development/build when server catalog modules or `locales/` JSON enter the client graph; type-only imports remain allowed. Verify that rejection and the actual payload in the destination.
+
+Catalog lint caps each JSON file at 100 physical lines and 8 KiB, and each merged route scope at 16 KiB. It enforces unique namespace ownership and matching files/keys across installed locales. These are source and payload budgets, not a measured speed claim. Check the destination's initial payload and production bundle before claiming the loading path is fast; see the [localization recipe](verifications/features/localization.md).
+
+French is available through `plugins/locales/fr/` in Parts. Copy its documented files and add its `fr` catalog to the registry; keep English as the default. To add its optional language control, copy both `language-select.tsx` and `set-locale.ts`. The control calls a validated POST server function to save the locale cookie, then invalidates the router. Follow the [localization recipe](verifications/features/localization.md) to check SSR, hydration, persisted choice, and missing-locale fallback.
+
+## Tests
+
+[tests/README.md](tests/README.md) defines route and source-owner placement. `/` owns `tests/routes/index/`; `/settings/profile` owns `tests/routes/settings/profile/`. Keep unit and integration cases for one owner together, preserve route groups and dynamic parameter names, and mirror backend/reusable component concerns under `tests/convex/` and `tests/components/`. Shared setup belongs to named concerns under `tests/support/`.
+
+The base runner uses Node and matches `tests/**/*.test.{ts,tsx}`. Select Parts' `plugins/testing/convex/` only when backend cases use its `convex-test` and edge-runtime dependencies. No product cases or browser harness are included. Keep live browser recipes in `verifications/` and local evidence in `.verifications/`.
+
+## Integration
+
+1. Replace the starter page with the destination's features and register its own Convex backend. TanStack generates `src/routeTree.gen.ts` when it starts or builds.
+2. Use `VITE_CONVEX_URL` for the public frontend URL. Keep auth and Stripe secrets on the backend or in private agent process configuration.
+3. Select module dependencies and merge their `package.fragment.json` fields and `patches/` into the project. Copy any shared files once and reconcile differences.
+4. Install with Bun, then generate destination schemas, routes, and backend references. The imported package versions and patches are a known source snapshot; upgrade them together deliberately.
+5. Run `bun run check`, resolve findings without weakening the policy, and specialize `verifications/README.md` and its feature recipes against the real app. Keep maintained guides in `verifications/` and local run evidence in `.verifications/`.
+
+The app does not inherit Next.js dependencies, configuration, route exceptions, or `NEXT_PUBLIC_` environment names. Source code and its adapters must agree on the destination's Vite names.

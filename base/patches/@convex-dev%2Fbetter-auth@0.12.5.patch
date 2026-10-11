@@ -1,0 +1,69 @@
+diff --git a/dist/react/index.d.ts b/dist/react/index.d.ts
+index 652857c519c97b92f4819cbb8f25bea33be20982..2fff59768f210acd8d02f6b9e1417e8f2d709a0f 100644
+--- a/dist/react/index.d.ts
++++ b/dist/react/index.d.ts
+@@ -1,18 +1,17 @@
+ import type { PropsWithChildren, ReactNode } from "react";
+ import type { AuthTokenFetcher } from "convex/browser";
+ import type { FunctionReference } from "convex/server";
+-import type { BetterAuthClientPlugin } from "better-auth";
+ import type { createAuthClient } from "better-auth/react";
+ import type { convexClient, crossDomainClient } from "../client/plugins/index.js";
+ import type { EmptyObject } from "convex-helpers";
+ type CrossDomainClient = ReturnType<typeof crossDomainClient>;
+ type ConvexClient = ReturnType<typeof convexClient>;
+-type PluginsWithCrossDomain = (CrossDomainClient | ConvexClient | BetterAuthClientPlugin)[];
+-type PluginsWithoutCrossDomain = (ConvexClient | BetterAuthClientPlugin)[];
+-type AuthClientWithPlugins<Plugins extends PluginsWithCrossDomain | PluginsWithoutCrossDomain> = ReturnType<typeof createAuthClient<BetterAuthClientPlugin & {
++type PluginsWithCrossDomain = (CrossDomainClient | ConvexClient)[];
++type PluginsWithoutCrossDomain = ConvexClient[];
++type AuthClientWithPlugins<Plugins extends PluginsWithCrossDomain | PluginsWithoutCrossDomain> = ReturnType<typeof createAuthClient<{
+     plugins: Plugins;
+ }>>;
+-export type AuthClient = AuthClientWithPlugins<PluginsWithCrossDomain> | AuthClientWithPlugins<PluginsWithoutCrossDomain>;
++export type AuthClient = Pick<AuthClientWithPlugins<PluginsWithCrossDomain>, "useSession" | "getSession" | "convex" | "crossDomain" | "updateSession"> | Pick<AuthClientWithPlugins<PluginsWithoutCrossDomain>, "useSession" | "getSession" | "convex">;
+ type IConvexReactClient = {
+     setAuth(fetchToken: AuthTokenFetcher): void;
+     clearAuth(): void;
+diff --git a/src/react/index.tsx b/src/react/index.tsx
+index dc10909a67009570ca00ea399828cd2775f6a561..5bc94610fb235f3dedd6d1e445f6fd62b4c39454 100644
+--- a/src/react/index.tsx
++++ b/src/react/index.tsx
+@@ -8,7 +8,6 @@ import {
+   useQuery,
+ } from "convex/react";
+ import type { FunctionReference } from "convex/server";
+-import type { BetterAuthClientPlugin } from "better-auth";
+ import type { createAuthClient } from "better-auth/react";
+ import type {
+   convexClient,
+@@ -18,24 +17,14 @@ import type { EmptyObject } from "convex-helpers";
+ 
+ type CrossDomainClient = ReturnType<typeof crossDomainClient>;
+ type ConvexClient = ReturnType<typeof convexClient>;
+-type PluginsWithCrossDomain = (
+-  | CrossDomainClient
+-  | ConvexClient
+-  | BetterAuthClientPlugin
+-)[];
+-type PluginsWithoutCrossDomain = (ConvexClient | BetterAuthClientPlugin)[];
++type PluginsWithCrossDomain = (CrossDomainClient | ConvexClient)[];
++type PluginsWithoutCrossDomain = ConvexClient[];
+ type AuthClientWithPlugins<
+   Plugins extends PluginsWithCrossDomain | PluginsWithoutCrossDomain,
+-> = ReturnType<
+-  typeof createAuthClient<
+-    BetterAuthClientPlugin & {
+-      plugins: Plugins;
+-    }
+-  >
+->;
++> = ReturnType<typeof createAuthClient<{ plugins: Plugins }>>;
+ export type AuthClient =
+-  | AuthClientWithPlugins<PluginsWithCrossDomain>
+-  | AuthClientWithPlugins<PluginsWithoutCrossDomain>;
++  | Pick<AuthClientWithPlugins<PluginsWithCrossDomain>, "useSession" | "getSession" | "convex" | "crossDomain" | "updateSession">
++  | Pick<AuthClientWithPlugins<PluginsWithoutCrossDomain>, "useSession" | "getSession" | "convex">;
+ 
+ // Until we can import from our own entry points (requires TypeScript 4.7),
+ // just describe the interface enough to help users pass the right type.

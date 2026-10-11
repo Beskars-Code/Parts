@@ -1,0 +1,128 @@
+diff --git a/dist/cjs-types/react/use_paginated_query.d.ts b/dist/cjs-types/react/use_paginated_query.d.ts
+--- a/dist/cjs-types/react/use_paginated_query.d.ts
++++ b/dist/cjs-types/react/use_paginated_query.d.ts
+@@ -1,8 +1,8 @@
+ import { OptimisticLocalStore } from "../browser/index.js";
+-import { FunctionReturnType, PaginationOptions, PaginationResult } from "../server/index.js";
+-import { Value } from "../values/index.js";
++import { FunctionReturnType, PaginationOptions, paginationOptsValidator, PaginationResult } from "../server/index.js";
++import { Infer, Value } from "../values/index.js";
+ import { FunctionArgs, FunctionReference } from "../server/api.js";
+ import { BetterOmit, Expand } from "../type_utils.js";
+ /**
+  * A {@link server.FunctionReference} that is usable with {@link usePaginatedQuery}.
+  *
+@@ -16,6 +16,20 @@ import { BetterOmit, Expand } from "../type_utils.js";
+ export type PaginatedQueryReference = FunctionReference<"query", "public", {
+     paginationOpts: PaginationOptions;
+ }, PaginationResult<any>>;
++type QueryPageKey = number;
++type UsePaginatedQueryState = {
++    query: FunctionReference<"query">;
++    args: Record<string, Value>;
++    id: number;
++    nextPageKey: QueryPageKey;
++    pageKeys: QueryPageKey[];
++    queries: Record<QueryPageKey, {
++        query: FunctionReference<"query">;
++        args: { paginationOpts: Infer<typeof paginationOptsValidator> };
++    }>;
++    ongoingSplits: Record<QueryPageKey, [QueryPageKey, QueryPageKey]>;
++    skip: boolean;
++};
+ /**
+  * Load data reactively from a paginated query to a create a growing list.
+  *
+@@ -56,6 +70,14 @@ export type PaginatedQueryReference = FunctionReference<"query", "public", {
+ export declare function usePaginatedQuery<Query extends PaginatedQueryReference>(query: Query, args: PaginatedQueryArgs<Query> | "skip", options: {
+     initialNumItems: number;
+ }): UsePaginatedQueryReturnType<Query>;
++export declare const includePage: unique symbol;
++export declare function usePaginatedQueryInternal<Query extends PaginatedQueryReference>(query: Query, args: PaginatedQueryArgs<Query> | "skip", options: {
++    initialNumItems: number;
++    [includePage]?: boolean;
++}, throwOnError?: boolean): {
++    user: UsePaginatedQueryInternalResult<PaginatedQueryItem<Query>>;
++    internal: { state: UsePaginatedQueryState };
++};
+ /**
+  * Reset pagination id for tests only, so tests know what it is.
+  */
+@@ -93,6 +115,13 @@ export type UsePaginatedQueryResult<Item> = {
+     status: "Exhausted";
+     isLoading: false;
+ });
++export type UsePaginatedQueryInternalResult<Item> = UsePaginatedQueryResult<Item> | {
++    results: Item[];
++    status: "Error";
++    isLoading: false;
++    error: Error;
++    loadMore: (numItems: number) => void;
++};
+ /**
+  * The possible pagination statuses in {@link UsePaginatedQueryResult}.
+  *
+diff --git a/dist/esm-types/react/use_paginated_query.d.ts b/dist/esm-types/react/use_paginated_query.d.ts
+--- a/dist/esm-types/react/use_paginated_query.d.ts
++++ b/dist/esm-types/react/use_paginated_query.d.ts
+@@ -1,8 +1,8 @@
+ import { OptimisticLocalStore } from "../browser/index.js";
+-import { FunctionReturnType, PaginationOptions, PaginationResult } from "../server/index.js";
+-import { Value } from "../values/index.js";
++import { FunctionReturnType, PaginationOptions, paginationOptsValidator, PaginationResult } from "../server/index.js";
++import { Infer, Value } from "../values/index.js";
+ import { FunctionArgs, FunctionReference } from "../server/api.js";
+ import { BetterOmit, Expand } from "../type_utils.js";
+ /**
+  * A {@link server.FunctionReference} that is usable with {@link usePaginatedQuery}.
+  *
+@@ -16,6 +16,20 @@ import { BetterOmit, Expand } from "../type_utils.js";
+ export type PaginatedQueryReference = FunctionReference<"query", "public", {
+     paginationOpts: PaginationOptions;
+ }, PaginationResult<any>>;
++type QueryPageKey = number;
++type UsePaginatedQueryState = {
++    query: FunctionReference<"query">;
++    args: Record<string, Value>;
++    id: number;
++    nextPageKey: QueryPageKey;
++    pageKeys: QueryPageKey[];
++    queries: Record<QueryPageKey, {
++        query: FunctionReference<"query">;
++        args: { paginationOpts: Infer<typeof paginationOptsValidator> };
++    }>;
++    ongoingSplits: Record<QueryPageKey, [QueryPageKey, QueryPageKey]>;
++    skip: boolean;
++};
+ /**
+  * Load data reactively from a paginated query to a create a growing list.
+  *
+@@ -56,6 +70,14 @@ export type PaginatedQueryReference = FunctionReference<"query", "public", {
+ export declare function usePaginatedQuery<Query extends PaginatedQueryReference>(query: Query, args: PaginatedQueryArgs<Query> | "skip", options: {
+     initialNumItems: number;
+ }): UsePaginatedQueryReturnType<Query>;
++export declare const includePage: unique symbol;
++export declare function usePaginatedQueryInternal<Query extends PaginatedQueryReference>(query: Query, args: PaginatedQueryArgs<Query> | "skip", options: {
++    initialNumItems: number;
++    [includePage]?: boolean;
++}, throwOnError?: boolean): {
++    user: UsePaginatedQueryInternalResult<PaginatedQueryItem<Query>>;
++    internal: { state: UsePaginatedQueryState };
++};
+ /**
+  * Reset pagination id for tests only, so tests know what it is.
+  */
+@@ -93,6 +115,13 @@ export type UsePaginatedQueryResult<Item> = {
+     status: "Exhausted";
+     isLoading: false;
+ });
++export type UsePaginatedQueryInternalResult<Item> = UsePaginatedQueryResult<Item> | {
++    results: Item[];
++    status: "Error";
++    isLoading: false;
++    error: Error;
++    loadMore: (numItems: number) => void;
++};
+ /**
+  * The possible pagination statuses in {@link UsePaginatedQueryResult}.
+  *

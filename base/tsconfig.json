@@ -1,0 +1,122 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noImplicitReturns": true,
+    "noImplicitOverride": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "verbatimModuleSyntax": true,
+    "forceConsistentCasingInFileNames": true,
+    "useUnknownInCatchVariables": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "react-jsx",
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "@effect/language-service",
+        "diagnosticSeverity": {
+          "anyUnknownInErrorContext": "error",
+          "classSelfMismatch": "error",
+          "duplicatePackage": "error",
+          "effectFnImplicitAny": "error",
+          "floatingEffect": "error",
+          "genericEffectServices": "error",
+          "missingEffectContext": "error",
+          "missingEffectError": "error",
+          "missingLayerContext": "error",
+          "missingReturnYieldStar": "error",
+          "missingStarInYieldEffectGen": "error",
+          "outdatedApi": "error",
+          "outdatedEffectCodegen": "error",
+          "overriddenSchemaConstructor": "error",
+          "unsupportedServiceAccessors": "error",
+          "catchUnfailableEffect": "error",
+          "effectFnIife": "error",
+          "effectGenUsesAdapter": "error",
+          "effectInFailure": "error",
+          "effectInVoidSuccess": "error",
+          "globalErrorInEffectCatch": "error",
+          "globalErrorInEffectFailure": "error",
+          "layerMergeAllWithDependencies": "error",
+          "lazyPromiseInEffectSync": "error",
+          "leakingRequirements": "error",
+          "multipleEffectProvide": "error",
+          "returnEffectInGen": "error",
+          "runEffectInsideEffect": "error",
+          "strictEffectProvide": "error",
+          "tryCatchInEffectGen": "error",
+          "unknownInEffectCatch": "error",
+          "cryptoRandomUUIDInEffect": "error",
+          "globalConsoleInEffect": "error",
+          "globalDateInEffect": "error",
+          "globalFetchInEffect": "error",
+          "globalRandomInEffect": "error",
+          "globalTimersInEffect": "error",
+          "instanceOfSchema": "error",
+          "preferSchemaOverJson": "error",
+          "processEnvInEffect": "error",
+          "unsafeEffectTypeAssertion": "error",
+          "catchAllToMapError": "error",
+          "deterministicKeys": "error",
+          "effectDoNotation": "error",
+          "effectFnOpportunity": "error",
+          "effectMapFlatten": "error",
+          "effectMapVoid": "error",
+          "effectSucceedWithVoid": "error",
+          "flatMapToMap": "error",
+          "importFromBarrel": "error",
+          "missedPipeableOpportunity": "error",
+          "nestedEffectGenYield": "error",
+          "redundantSchemaTagIdentifier": "error",
+          "schemaStructWithTag": "error",
+          "serviceNotAsClass": "error",
+          "strictBooleanExpressions": "error",
+          "unnecessaryArrowBlock": "error",
+          "unnecessaryEffectGen": "error",
+          "unnecessaryFailYieldableError": "error",
+          "unnecessaryPipe": "error",
+          "unnecessaryPipeChain": "error"
+        }
+      }
+    ],
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ]
+    },
+    "types": [
+      "vite/client"
+    ]
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "vite.config.ts",
+    "vitest.config.ts",
+    "tests/**/*.ts",
+    "tests/**/*.tsx"
+  ],
+  "exclude": [
+    "node_modules",
+    "src/routeTree.gen.ts",
+    ".output",
+    "dist"
+  ]
+}
