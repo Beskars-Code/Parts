@@ -1,5 +1,5 @@
 import { spawnSync } from "node:child_process";
-import { existsSync, readdirSync } from "node:fs";
+import { existsSync, readdirSync, realpathSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 
 const root = fileURLToPath(new URL("../../", import.meta.url));
@@ -29,7 +29,7 @@ function addEffectProject(name, directory, project) {
 
 function run(command) {
 	process.stdout.write(`\n${command.name}\n`);
-	const binary = fileURLToPath(new URL(`../../${command.binary}`, import.meta.url));
+	const binary = realpathSync(new URL(`../../${command.binary}`, import.meta.url));
 	const result = spawnSync(process.execPath, [binary, ...command.args], { cwd: root, stdio: "inherit" });
 	if (result.error) {
 		process.stderr.write(`${command.name}: ${result.error.message}\n`);

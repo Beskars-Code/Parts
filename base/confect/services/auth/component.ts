@@ -1,9 +1,9 @@
 import { createClient } from "@convex-dev/better-auth";
 import { betterAuth } from "better-auth/minimal";
 
+import { baseAuthOptions } from "./options";
 import authSchema from "../../../components/betterAuth/schema";
 import { components } from "../../_generated/components";
-import { baseAuthOptions } from "./options";
 
 import type databaseSchema from "../../_generated/schema";
 import type { DataModel as ConfectDataModel } from "@confect/server";
@@ -18,8 +18,6 @@ export const authComponent: ReturnType<typeof createClient<DataModel, typeof aut
 	verbose: false,
 
 });
-
-export const { onCreate, onUpdate, onDelete } = authComponent.triggersApi();
 
 export const createAuthOptions = (ctx: GenericCtx<DataModel>) => {
 	const resultValue = {

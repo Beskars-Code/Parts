@@ -35,6 +35,7 @@ const eslintConfig = defineConfig([
 		"build/**",
 		"convex/_generated/**",
 		"components/**/_generated/**",
+		"components/betterAuth/generatedSchema.ts",
 		"confect/_generated/**",
 	]),
 	{

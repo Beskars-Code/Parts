@@ -1,13 +1,13 @@
 # Project instructions
 
-Use Bun and the scripts in `package.json`. The stack is TanStack Start, React, TypeScript, Convex, and Effect. Select auth and other modules from Parts to fit the project.
+Use Bun and the scripts in `package.json`. The starter uses TanStack Start, React, TypeScript, Convex, Confect, Effect, and Better Auth email/password login. Keep its real auth/storage boundaries when replacing the todo example, and select optional modules from Parts to fit the project.
 
 ## Read first
 
 - [docs/architecture.md](docs/architecture.md): ownership and folder conventions.
 - [docs/design.md](docs/design.md): product UI and UX rules.
 - [instructions/README.md](instructions/README.md): repeatable agent jobs.
-- [verifications/README.md](verifications/README.md): plain Markdown verification template; specialize it for this app before using it as a live runbook.
+- [verifications/README.md](verifications/README.md): plain Markdown starter recipes; record the destination's setup and real results before calling it verified.
 - [tests/README.md](tests/README.md): route and source-owner placement for accepted automated cases.
 
 ## Quality
@@ -33,7 +33,7 @@ Use Bun and the scripts in `package.json`. The stack is TanStack Start, React, T
 - Backend schemas and function contracts use explicit argument and return validators.
 - App files use kebab-case. Convex files contain no hyphens or underscores.
 - No new tests without the user's acceptance. Existing tests may be run.
-- Keep accepted cases with their route or source owner under `tests/`, rather than parallel unit/integration/e2e trees. The base runner has no product cases; no tests found is not a passing suite. Use `--passWithNoTests` only for explicit scaffold discovery checks, never as the default or evidence of behavior coverage. Add Convex test dependencies only when real backend cases need that optional module.
+- Keep accepted cases with their route or source owner under `tests/`, rather than parallel unit/integration/e2e trees. The base includes three accepted starter service cases; no tests found after removing them is not a passing suite. Use `--passWithNoTests` only for explicit scaffold discovery checks, never as the default or evidence of behavior coverage. Add Convex test dependencies only when real backend cases need that optional module.
 
 ## Verify and report
 

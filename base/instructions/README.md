@@ -8,7 +8,9 @@ When importing a Parts module, read its README, merge its package fragment and p
 
 The baseline already supplies English `use-intl` catalogs, persisted theme selection, and page/theme transitions. Keep those owners when replacing the starter page. Put copy in nested `locales/<locale>/<route-owner>/` folders, load catalogs through route server functions, and supply providers from loader data. Keep runtime JSON imports server-only. Use `plugins/locales/fr/` from Parts only when French is requested, preserve English as the default, and run `bun run lint:i18n` after catalog changes.
 
-Use [tests/README.md](../tests/README.md) for accepted cases. Keep them with route/backend/component owners rather than splitting one owner across unit/integration/e2e directories. No product cases ship with the runner setup; a no-tests exit is not a passing suite. Convex test dependencies are selected separately when actual backend cases need them.
+Use [tests/README.md](../tests/README.md) for accepted cases. Keep them with route/backend/component owners rather than splitting one owner across unit/integration/e2e directories. Three accepted service cases ship with the example; a no-tests exit after removing them is not a passing suite. Convex test dependencies are selected separately when actual backend cases need them.
+
+Follow [development.md](development.md) for first setup, aggregate startup, and guarded application-admin login. It owns the generation order, separate Convex/app identities, and local/hosted prerequisites. Use `dev:all` when existing watchers are stopped, or start only missing individual processes. The example uses real auth and persistence. Keep its fake billing label visible until replacing that integration with verified real checkout and entitlement sync. [docs/services.md](../docs/services.md) identifies the replaceable Effect boundaries and branded fixture IDs.
 
 ## Add a translated page
 

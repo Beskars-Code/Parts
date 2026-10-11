@@ -102,12 +102,16 @@
       ]
     },
     "types": [
-      "vite/client"
+      "vite/client", "node"
     ]
   },
   "include": [
     "src/**/*.ts",
     "src/**/*.tsx",
+    "services/**/*.ts",
+    "confect/**/*.ts",
+    "components/**/*.ts",
+    "convex/**/*.ts",
     "vite.config.ts",
     "vitest.config.ts",
     "tests/**/*.ts",

@@ -1,8 +1,9 @@
 import { MiddlewareImpl } from "@confect/server";
 import * as Effect from "effect/Effect";
 
-import RequirePermission, { MissingPermission } from "./requirepermission.spec";
+import RequirePermission from "./requirepermission.spec";
 import { CurrentUser } from "./requireuser.spec";
+import { MissingPermission } from "../../services/auth/access";
 import databaseSchema from "../_generated/schema";
 import { hasPermission } from "../services/auth/permissions";
 
@@ -11,7 +12,6 @@ export default MiddlewareImpl.make(databaseSchema, RequirePermission, Effect.fnU
 		if (!hasPermission(user, permission)) {
 			return yield* new MissingPermission({
 				permission,
-				message: `Missing permission: ${permission}`,
 			});
 		}
 		return yield* effect;

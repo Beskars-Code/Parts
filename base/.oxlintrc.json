@@ -43,6 +43,7 @@
                            "convex/_generated",
                            "confect/_generated",
                            "components/**/_generated/**",
+                           "components/betterAuth/generatedSchema.ts",
                            ".output",
                            ".tanstack",
                            "dist",

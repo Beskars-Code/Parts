@@ -4,17 +4,18 @@ My reusable foundation for future projects: the tech stack, file structure, comm
 
 Parts is a source of conventions and building blocks. In a new repository, I should be able to tell an agent which parts to bring over, and have it adapt and connect them to that project. Parts itself does not need to be a runnable application.
 
-**Current contents:** a [base project template](base/README.md), [auth and agent login module](plugins/auth/README.md), [Stripe module](plugins/stripe/README.md), and optional [French locale](plugins/locales/fr/README.md), extracted and adapted from Apollo-Predictions and Apollo Labs. These are source and integration templates; they become a running app after an agent connects them in a destination project.
+**Current contents:** a [todo starter](base/README.md) with real Convex storage and Better Auth email/password login, replaceable Effect services, demonstrated billing, a themed shader, and an optional [Tauri 2 shell](base/src-tauri/README.md). The [auth module](plugins/auth/README.md), [Stripe module](plugins/stripe/README.md), and optional [French locale](plugins/locales/fr/README.md) remain reusable integration material adapted from Apollo-Predictions and Apollo Labs.
 
 ## Start here
 
 | Part | What to bring over |
 | --- | --- |
-| [base/](base/README.md) | Base `package.json`, TanStack/Vite config, strict linting, Knip, TypeScript, patches, architecture docs, and project instructions |
+| [base/](base/README.md) | Connected todo starter, Effect service boundaries, TanStack/Vite config, strict tooling, patches, and setup instructions |
 | [plugins/auth/](plugins/auth/README.md) | Better Auth/Confect integration, roles and permissions, and development admin login |
 | [plugins/stripe/](plugins/stripe/README.md) | Code-owned Stripe catalog scripts, backend mirrors, and billing adaptation references |
 | [plugins/locales/fr/](plugins/locales/fr/README.md) | Opt-in French catalog and language switcher; the base starts in English |
-| [Test layout](base/tests/README.md) | Route and source-owner folders, with Vitest configured and no product cases |
+| [Test layout](base/tests/README.md) | Route and source-owner folders with Vitest and the accepted starter service cases |
+| [Optional native shell](base/src-tauri/README.md) | Tauri 2 source template, selected-only dependency fragment, and hosted-server setup |
 | [Convex test environment](plugins/testing/convex/README.md) | Optional backend test dependencies and edge-runtime configuration |
 | [Verification template](base/verifications/README.md) | Plain Markdown runbook, feature recipes, and evidence conventions outside `docs/` |
 | [Importing guide](docs/importing.md) | How agents select, merge, configure, and verify parts |
@@ -25,7 +26,9 @@ The baseline keeps Apollo's harsh quality policy: Oxlint plus full ESLint, zero 
 
 Structure lint also warns and fails when a handwritten code file exceeds **1,000 physical lines** or a folder contains more than **8 direct handwritten code files**. Generated code is excluded. Agents split files by responsibility and organize folders by concern.
 
-`base/` is the copyable starting repo: it includes a minimal TanStack app and empty Convex configuration. Parts as a whole remains a catalog of reusable pieces. Agents follow [instructions/start-project.md](instructions/start-project.md) to create a destination project and connect opt-in modules.
+`base/` is the copyable starting repo. After generating auth and Confect code, then creating and configuring its own Convex deployment, the destination runs the todo app with real authentication and persistence. Free accounts can store 5 tasks; the explicitly fake upgrade raises the cap to 25. Completed tasks still count until deleted. The admin panel is read-only and requires both the admin role and a `system:access` permission equal to `true`. Parts itself remains a catalog. Follow [instructions/start-project.md](instructions/start-project.md) to connect and verify a destination.
+
+The [development guide](base/instructions/development.md) owns initial setup and the guarded admin login. A configured development deployment can start through `bun run dev:all` when its existing watchers are stopped. Convex account/deployment selection and the app's Better Auth users are separate identities.
 
 Vite forwards browser console logs and unhandled errors into the dev terminal by default in this base, so agents can inspect frontend and server output together.
 
@@ -49,9 +52,9 @@ The base includes editable shadcn-compatible light/dark palettes, a persisted Li
 | Shaders | Visual effects |
 | Tauri 2 | Optional desktop and mobile apps with native integrations |
 
-WorkOS is the default authentication choice, with Better Auth available as an alternative. A project selects the provider it needs. Roles, permissions, and application behavior should stay behind the project's shared auth interfaces so changing providers does not require rewriting each feature.
+The runnable starter uses Better Auth email/password login. WorkOS remains a provider option that requires a real destination adapter; a finished WorkOS module is still planned. Session, task, account, and billing dependencies are Effect Layers, so a destination can replace a provider or supply a mock at the owning boundary. See the [service guide](base/docs/services.md).
 
-Tauri is included when a project needs native apps. Other capabilities, such as AI, billing, and visual effects, are brought in when the project needs them.
+The theme-derived shader is included in the web starter. The optional Tauri shell loads the live app server, with localhost development and an explicitly configured HTTPS release target. Its CLI, icons, native toolchain, packaging, and platform verification are destination setup. OpenRouter and real Stripe billing remain selected integrations.
 
 ## What belongs here
 
@@ -74,7 +77,7 @@ Here, a "plugin" means an optional capability an agent can bring into a project.
 | Convex components | Custom reusable backend components and their integration points |
 | Stripe billing | Catalog tooling and mirrors available; checkout, subscription sync, and webhook source provided as adaptation references |
 | AI | Planned OpenRouter integration and reusable Effect workflows |
-| Native apps | Planned optional Tauri setup and native integrations |
+| Native apps | Optional Tauri 2 hosted-app shell template; platform builds and native integrations require destination setup |
 | French locale | Optional catalog, registry change, and language switcher; English remains the default |
 | Convex testing | Optional `convex-test` and edge-runtime setup for accepted backend cases |
 
@@ -107,7 +110,7 @@ Importing a module includes connecting it to the app. For example, bringing over
 ```text
 Use https://github.com/Beskars-Code/Parts as the foundation for this new repo.
 Bring over the base structure, tech stack, tooling, and commands.
-Use WorkOS for authentication. Include only the modules this project needs.
+Keep the starter's Better Auth email/password login. Include only the optional modules this project needs.
 ```
 
 ```text

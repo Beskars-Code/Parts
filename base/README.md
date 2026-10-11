@@ -1,28 +1,46 @@
 # Base project template
 
-Copy the contents of this directory into a new project root, merge with any existing files, and rename `parts-project` in `package.json`. This is a minimal starting repo with a TanStack app, Tailwind stylesheet, empty Convex configuration, strict tooling, and project guidance. Auth and product features are selected and connected in the destination.
+Copy the contents of this directory into a new project root, merge with any existing files, and rename `parts-project` in `package.json` together with the [Effect service identifier prefixes](docs/services.md#rename-the-destination). This starter contains a TanStack todo app with real Convex persistence, Better Auth email/password login, strict permission checks, replaceable Effect services, and visibly fake billing. The example app is small enough to replace with a destination's product.
 
-Agents follow the project [instructions](instructions/README.md). After copying, install with Bun and run `bun run dev` to generate the route tree and open the starter page. Configure the new project's backend with `bun run dev:convex` when ready to connect Convex.
+Agents follow the project [instructions](instructions/README.md). Generate auth and Confect code before the first Convex startup, then create the destination's deployment and configure its environment before starting the web app. The [starter recipe](verifications/features/starter.md) covers the connected user flow.
 
 ## Included
 
-- A Bun package manifest and minimal app for TanStack Start, React, TypeScript, Convex, and Tailwind.
+- A Bun package manifest and connected todo example for TanStack Start, React, TypeScript, Convex, Better Auth, Confect, Effect, and Tailwind.
+- Email/password sign-up and sign-in, owner-scoped task create/rename/complete/delete, and a read-only protected admin panel.
+- A free 5-task cap and deterministic mock checkout to the 25-task Pro cap. Every stored task counts, including completed tasks. No Stripe credentials or real charge are involved.
+- Effect service contracts for sessions, tasks, accounts, and billing, with real Convex adapters and injectable frontend Layers.
 - Vite and Tailwind configuration, strict TypeScript settings, Oxlint, ESLint, Knip, and custom lint rules.
 - Browser log and unhandled-error forwarding into the Vite development terminal, with terminal output preserved between updates.
-- Editable shadcn-compatible theme tokens, a persisted Light/Dark/System picker, and page/theme transitions adapted from Apollo-Predictions.
+- Editable shadcn-compatible theme tokens, a persisted Light/Dark/System picker, page/theme transitions, and a quiet WebGL shader derived from the same palette.
 - English-default `use-intl` messages, typed translation keys, and server-delivered route catalogs adapted from Apollo Labs.
-- A [route and owner-based test layout](tests/README.md) with Vitest 5.0.3 configured; no product test cases are included.
+- A [route and owner-based test layout](tests/README.md) with Vitest 5.0.3 and the accepted starter service behavior cases.
 - Matching Convex and Effect language-service patches from Apollo.
 - Project agent instructions, architecture and design documentation, and a [plain Markdown verification template](verifications/README.md) outside `docs/`.
 
-Auth, Stripe, Effect/Confect workflows, OpenRouter, shadcn setup, shaders, and Tauri are selected modules or destination setup choices. Their absence from the base dependency list does not change the preferred stack; they are added when adopted rather than installed unused. Effect diagnostic tooling is included so it is ready when workflows are added.
+Real Stripe, OpenRouter, shadcn components, and native integrations remain opt-in. The optional [Tauri 2 source template](src-tauri/README.md) has its own dependency fragment; the web manifest does not install an unused native CLI. The Stripe plugin's checkout and webhook files are adaptation references, while the starter billing provider is a deterministic mock.
+
+## Destination setup
+
+Follow the [development guide](instructions/development.md) for installation, environment setup, and the complete first-run sequence. Generate Better Auth, then Confect, before the first Convex startup; neither generator needs an existing deployment. Keep lockfiles, generated schemas, configuration, and references owned by the destination.
+
+For an already selected development deployment with stopped watchers, `bun run dev:all` generates schemas and starts Convex, Confect, and Vite together. When retaining existing watchers, start only missing individual commands. The guide owns [startup options](instructions/development.md#start-a-configured-development-session) and [intentional development-agent setup](instructions/development.md#development-agent-login). Convex CLI account selection is separate from the Better Auth user who signs into the app.
+
+The root `/` route contains the task app and sign-in form. Its expandable admin panel is a read-only caller identity view on the same screen. The auth proxy owns `/api/auth/$`. A missing Convex configuration produces setup guidance rather than a fake authenticated session or local task store. Browser visibility does not grant backend access.
+
+New users have the `user` role and no admin permission. Provision an admin role and a `system:access` permission equal to `true` through a trusted backend operation for the destination. A role alone does not grant the permission. The development agent login creates its designated admin through the same auth and permission path; keep that bypass unavailable outside development. The starter does not register user or role management endpoints.
 
 ## Commands
 
 | Command | Purpose |
 | --- | --- |
+| `bun run dev:all` | Generate auth/Confect schemas and start owned Convex, Confect, and Vite processes for a configured development deployment |
 | `bun run dev` | Start the destination TanStack app on port 3000 |
 | `bun run dev:convex` | Start the destination Convex watcher |
+| `bun run dev:confect` | Watch Confect contracts and regenerate destination backend registrations |
+| `bun run codegen:auth` | Generate the destination Better Auth schema |
+| `bun run codegen:confect` | Generate the destination Confect contracts and references |
+| `bun run agent:login` | Provision/sign in and verify the intentionally enabled development application admin on a selected local, anonymous, or hosted dev backend |
 | `bun run build` | Build the destination app |
 | `bun run preview` | Preview its build |
 | `bun run lint` | Run structure and message-catalog checks, Oxlint, full ESLint, and Effect diagnostics for existing source projects |
@@ -34,7 +52,7 @@ Auth, Stripe, Effect/Confect workflows, OpenRouter, shadcn setup, shaders, and T
 | `bun run check` | Run lint, typecheck, and Knip |
 | `bun run test` | Run the destination's accepted Vitest cases once |
 
-Module package fragments add commands such as `agent:login`, `codegen:confect`, and `stripe:check`. Add cases only after the user accepts the specific tests. The test infrastructure is ready, but a pristine starter has no test files and its test command fails with "No test files found"; this is not a passing suite.
+Optional module fragments add commands such as `stripe:check` and `desktop:dev`. Add or extend tests only after the user accepts the specific cases. If a destination removes the example cases, a "No test files found" exit is missing coverage, not a passing suite.
 
 Vite's [browser console forwarding](https://vite.dev/config/server-options#server-forwardconsole) is explicitly enabled for `log`, `info`, `warn`, `error`, and `debug`, plus uncaught errors and unhandled rejections. Agents can read client-side events alongside server logs in the development terminal. The dev server fails if its chosen port is occupied instead of silently moving to another origin.
 
@@ -64,6 +82,8 @@ The root [ThemeProvider](src/components/theme/theme-provider.tsx) uses `next-the
 
 shadcn components remain opt-in. When initializing them, point the CLI at `src/styles.css` with CSS variables enabled and preserve these tokens instead of adding another palette. See the [shadcn theme convention](https://ui.shadcn.com/docs/theming) and [Tailwind custom variants](https://tailwindcss.com/docs/adding-custom-styles#adding-custom-variants).
 
+[ShaderBackground](src/components/shader/shader-background.tsx) mounts a decorative WebGL light field behind the app. It reads `--background` and `--muted-foreground`, follows root theme changes, caps render density, and stops animation in hidden tabs or reduced-motion mode. Its callback-ref cleanup removes listeners/observers and deletes GPU resources. Unsupported WebGL, setup failure, and context loss leave the CSS theme background visible. Keep the shader and persistent chrome outside `PageTransition`.
+
 ## Transitions
 
 [PageTransition](src/components/page-transition/page-transition.tsx) wraps the root route's `<Outlet />` in a DOM element with `view-transition-name: page`. The router enables `defaultViewTransition: true`, so TanStack starts the native browser transition when route content changes. The named page snapshot blurs, fades, and scales slightly over 500ms. Keep persistent navigation, sidebars, and other app chrome outside this capture region. TanStack owns page transitions; do not add a second React `ViewTransition` engine around the outlet.
@@ -76,7 +96,7 @@ Theme changes use a typed `theme` browser transition and reveal the new root pal
 
 The shared config explicitly uses UTC for formatting on the server and in the browser, avoiding environment-dependent time-zone differences. Set a different explicit product time zone there when the app needs it; keep metadata and client formatting on the same configuration.
 
-Keep UI copy under `locales/<locale>/<route-owner>/`, with concern files inside each route folder. The base has `locales/en/__root/theme.json`, `__root/language.json`, and `index/page.json`. They own the distinct `theme`, `language`, and `home` namespaces; leaf names such as `label` can repeat within different namespaces. Use typed calls such as `useTranslations("theme")` in components. Preserve route groups and `$parameter` names when adding nested route owners.
+Keep UI copy under `locales/<locale>/<route-owner>/`, with concern files inside each route folder. The base has shared catalogs under `locales/en/__root/` and separate concern catalogs under `index/` for tasks, auth, billing, admin, and errors. Each concern owns its namespace; leaf names such as `label` can repeat within different namespaces. Use typed calls such as `useTranslations("theme")` in components. Preserve route groups and `$parameter` names when adding nested route owners.
 
 Runtime catalog imports stay in `.server.ts` modules. UI providers receive messages from loader data instead of importing the catalog registry. The root loads its shared scope; the index route loads its page scope and combines it with the parent messages for its provider. English type augmentation uses type-only imports, which do not bring JSON into the browser bundle. Installing French registers its matching server catalogs; it does not add all languages to the initial client payload.
 
@@ -92,14 +112,14 @@ French is available through `plugins/locales/fr/` in Parts. Copy its documented 
 
 [tests/README.md](tests/README.md) defines route and source-owner placement. `/` owns `tests/routes/index/`; `/settings/profile` owns `tests/routes/settings/profile/`. Keep unit and integration cases for one owner together, preserve route groups and dynamic parameter names, and mirror backend/reusable component concerns under `tests/convex/` and `tests/components/`. Shared setup belongs to named concerns under `tests/support/`.
 
-The base runner uses Node and matches `tests/**/*.test.{ts,tsx}`. Select Parts' `plugins/testing/convex/` only when backend cases use its `convex-test` and edge-runtime dependencies. No product cases or browser harness are included. Keep live browser recipes in `verifications/` and local evidence in `.verifications/`.
+The base runner uses Node and matches `tests/**/*.test.{ts,tsx}`. Its accepted cases exercise the core service boundaries; they do not prove a deployed Convex transport or browser login. Select Parts' `plugins/testing/convex/` only when backend cases use its `convex-test` and edge-runtime dependencies. Keep live browser recipes in `verifications/` and local evidence in `.verifications/`.
 
 ## Integration
 
-1. Replace the starter page with the destination's features and register its own Convex backend. TanStack generates `src/routeTree.gen.ts` when it starts or builds.
-2. Use `VITE_CONVEX_URL` for the public frontend URL. Keep auth and Stripe secrets on the backend or in private agent process configuration.
-3. Select module dependencies and merge their `package.fragment.json` fields and `patches/` into the project. Copy any shared files once and reconcile differences.
-4. Install with Bun, then generate destination schemas, routes, and backend references. The imported package versions and patches are a known source snapshot; upgrade them together deliberately.
+1. Replace the example feature with the destination's product while keeping its needed service and authority boundaries, and register its own Convex backend. TanStack generates `src/routeTree.gen.ts` when it starts or builds.
+2. Select module dependencies and merge their `package.fragment.json` fields and `patches/` into the project. Copy any shared files once and reconcile differences.
+3. Install with Bun, then run auth generation followed by Confect generation before the first Convex startup. Let Convex and TanStack generate their deployment references and routes in the destination. The imported package versions and patches are a known source snapshot; upgrade them together deliberately.
+4. Configure public `VITE_CONVEX_URL` and `VITE_CONVEX_SITE_URL` from the destination deployment. Keep auth and Stripe secrets on the backend or in private agent process configuration.
 5. Run `bun run check`, resolve findings without weakening the policy, and specialize `verifications/README.md` and its feature recipes against the real app. Keep maintained guides in `verifications/` and local run evidence in `.verifications/`.
 
 The app does not inherit Next.js dependencies, configuration, route exceptions, or `NEXT_PUBLIC_` environment names. Source code and its adapters must agree on the destination's Vite names.

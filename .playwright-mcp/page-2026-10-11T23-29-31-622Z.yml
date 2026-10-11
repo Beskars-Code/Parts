@@ -1,0 +1,45 @@
+- generic [ref=f2e2]:
+  - complementary [ref=f2e3]:
+    - paragraph [ref=f2e4]: Disposable recovery probe. All five services are injected.
+    - generic [ref=f2e5]:
+      - button "Reject writes" [ref=f2e6]
+      - button "Accept writes" [ref=f2e7]
+      - button "Fail session only" [ref=f2e8]
+      - button "Fail all reads" [ref=f2e9]
+      - button "Defect read" [ref=f2e10]
+      - button "Recover reads" [ref=f2e11]
+      - button "Confirm signed out" [ref=f2e12]
+  - main [ref=f2e13]:
+    - generic [ref=f2e14]:
+      - generic [ref=f2e15]:
+        - generic [ref=f2e16]:
+          - heading "Your tasks" [level=1] [ref=f2e17]
+          - paragraph [ref=f2e18]: probe@example.invalid
+        - button "Sign out" [ref=f2e20]
+      - generic [ref=f2e21]:
+        - generic [ref=f2e22]: New task
+        - generic [ref=f2e23]:
+          - textbox "New task" [ref=f2e24]:
+            - /placeholder: What needs doing?
+            - text: Create draft retained after failure
+          - button "Add task" [ref=f2e25]
+        - alert [ref=f2e48]: The connection failed. Your edits are still here. Try again.
+      - list "Your tasks" [ref=f2e26]:
+        - listitem [ref=f2e27]:
+          - generic [ref=f2e28]:
+            - checkbox "Complete Existing task" [ref=f2e30]
+            - generic [ref=f2e52]:
+              - generic [ref=f2e53]:
+                - generic [ref=f2e54]: Task title
+                - textbox "Task title" [active] [ref=f2e55]: Existing task
+              - button "Save" [ref=f2e56]
+              - button "Cancel" [ref=f2e57]
+      - region "Your plan" [ref=f2e39]:
+        - generic [ref=f2e40]:
+          - generic [ref=f2e41]:
+            - paragraph [ref=f2e42]: Free plan
+            - paragraph [ref=f2e43]: 1 of 5 task slots used
+          - button "Simulate Pro upgrade" [ref=f2e44]
+        - paragraph [ref=f2e45]: Billing demo. No payment is taken. Completed tasks still use a slot.
+      - group [ref=f2e46]:
+        - generic "Admin status" [ref=f2e47] [cursor=pointer]

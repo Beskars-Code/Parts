@@ -1,5 +1,4 @@
 import { convex } from "@convex-dev/better-auth/plugins";
-import { admin } from "better-auth/plugins";
 
 import authConfig from "../../auth";
 import { cloudAgentAuthPlugin } from "./cloudagent/plugin";
@@ -17,11 +16,10 @@ export function baseAuthOptions() {
 		user: {
 			additionalFields: {
 				permissions: { type: "json", required: false, defaultValue: {}, input: false },
+				role: { type: "string", required: false, defaultValue: "user", input: false },
 			},
-			deleteUser: { enabled: true },
 		},
 		plugins: [
-			admin({ defaultRole: "user", adminRoles: ["admin"] }),
 			convex({ authConfig }),
 			cloudAgentAuthPlugin(),
 		],

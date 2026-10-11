@@ -1,0 +1,14 @@
+{
+  "billing": {
+    "label": "Your plan",
+    "free": "Free plan",
+    "pro": "Pro plan",
+    "count": "{count} of {limit} task slots used",
+    "upgrade": "Simulate Pro upgrade",
+    "upgradeLive": "Upgrade to Pro",
+    "upgrading": "Upgrading...",
+    "simulation": "Billing demo. No payment is taken. Completed tasks still use a slot.",
+    "loading": "Loading your plan...",
+    "retry": "Try again"
+  }
+}

@@ -1,6 +1,6 @@
 # Test ownership
 
-Keep tests with the route or reusable owner they protect. The base includes runner configuration and placement guides, with no product test cases. Add or extend a test only after the user accepts that specific behavior.
+Keep tests with the route or reusable owner they protect. The base includes runner configuration, placement guides, and three accepted starter service cases. They execute real domain logic with Effect-injected session, task/account storage, and billing dependencies. They do not prove browser login or deployed Convex behavior. Add or extend a test only after the user accepts that specific behavior.
 
 | Owner | Test folder |
 | --- | --- |
@@ -17,7 +17,7 @@ Name case files after behavior, ending in `.test.ts` or `.test.tsx`. Unit and in
 
 ## Runner
 
-[vitest.config.ts](../vitest.config.ts) runs `tests/**/*.test.{ts,tsx}` in Node with the app's TypeScript path aliases. `bun run test` runs accepted cases once. A pristine starter reports no tests and exits unsuccessfully; this is not a green test suite. Do not add empty assertions or enable `passWithNoTests` to hide that result.
+[vitest.config.ts](../vitest.config.ts) runs `tests/**/*.test.{ts,tsx}` in Node with the app's TypeScript path aliases. `bun run test` runs accepted cases once. If the destination removes the starter cases and has no other cases, the command exits unsuccessfully; this is not a green test suite. Do not add empty assertions or enable `passWithNoTests` to hide that result.
 
 An explicit `bun run test --passWithNoTests` may check runner discovery while the scaffold is empty. Report it as a configuration smoke check with zero behavior coverage; keep the default command's no-tests failure.
 

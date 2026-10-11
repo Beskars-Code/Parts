@@ -1,0 +1,14 @@
+{
+  "billing": {
+    "label": "Votre forfait",
+    "free": "Forfait gratuit",
+    "pro": "Forfait Pro",
+    "count": "{count} places utilisées sur {limit}",
+    "upgrade": "Simuler le passage au forfait Pro",
+    "upgradeLive": "Passer au forfait Pro",
+    "upgrading": "Changement en cours...",
+    "simulation": "Démonstration de facturation. Aucun paiement n'est effectué. Les tâches terminées occupent aussi une place.",
+    "loading": "Chargement de votre forfait...",
+    "retry": "Réessayer"
+  }
+}

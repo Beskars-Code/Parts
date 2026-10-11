@@ -11,6 +11,8 @@ Run against the copied destination app. The starter's `/` route has a labeled Th
 5. Navigate between two real routes. Changing content should blur/fade with slight scaling over 500ms; persistent chrome should stay still. Confirm TanStack's `defaultViewTransition: true` starts the native transition and `PageTransition` supplies the named `page` DOM capture, with no second React transition engine.
 6. Repeat with reduced motion enabled. Page navigation should use a short opacity-only fade; theme changes should be immediate. In a browser without typed theme-transition support, confirm choices still apply without animation.
 7. Inspect a server-rendered document before hydration: without a resolved mode class, the CSS OS fallback must provide the correct palette. After hydration, the provider owns the saved preference and resolved class.
+8. Observe the decorative background in Light and Dark. The quiet light field should use those same grayscale tokens, stay behind content, and receive no pointer or keyboard input. Resize and confirm it still fills the viewport. In reduced-motion mode it must be static; in a hidden tab it must schedule no animation frames. Returning to a visible tab should resume normal motion without a time jump.
+9. In a browser session with WebGL disabled, reload and confirm the normal themed CSS background and usable app remain. Simulate WebGL context loss where the harness supports it and confirm the canvas hides. Unmount/reconnect the root in a development check and confirm shader listeners, observers, scheduled frames, and GPU resources are cleaned up without duplicate animation loops.
 
 ## Evidence and recovery
 

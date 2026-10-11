@@ -1,6 +1,13 @@
 {
   "home": {
-    "title": "Nouveau projet",
-    "description": "Votre projet commence ici."
+    "title": "Vos tâches",
+    "description": "Connectez-vous pour retrouver vos tâches.",
+    "loading": "Connexion à votre compte...",
+    "setupTitle": "Connecter votre projet",
+    "setupDescription": "Cet exemple utilise un véritable serveur Convex et Better Auth.",
+    "setupUrls": "Définissez VITE_CONVEX_URL et VITE_CONVEX_SITE_URL dans .env.local.",
+    "setupBackend": "Configurez Convex et Better Auth, générez les références du serveur, puis redémarrez le serveur de développement.",
+    "setupReload": "Vérifier la configuration",
+    "retry": "Réessayer"
   }
 }

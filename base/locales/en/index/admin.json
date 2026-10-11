@@ -1,0 +1,10 @@
+{
+  "admin": {
+    "title": "Admin status",
+    "loading": "Checking access...",
+    "identity": "Signed in as",
+    "access": "Admin access",
+    "granted": "Granted",
+    "retry": "Check again"
+  }
+}

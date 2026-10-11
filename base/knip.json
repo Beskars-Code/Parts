@@ -1,14 +1,24 @@
 {
     "$schema":  "https://unpkg.com/knip@6.40.0/schema.json",
     "entry":  [
-                  "src/routes/**/*.{ts,tsx}"
+                  "src/routes/**/*.{ts,tsx}",
+                  "confect/auth.ts", "confect/http.ts",
+                  "confect/tables/accounts.ts", "confect/tables/todos.ts",
+                  "confect/identity.spec.ts", "confect/identity.impl.ts",
+                  "confect/todos.spec.ts", "confect/todos.impl.ts",
+                  "confect/billing/billing.spec.ts", "confect/billing/billing.impl.ts",
+                  "confect/admin/admin.spec.ts", "confect/admin/admin.impl.ts",
+                  "components/betterAuth/convex.config.ts", "components/betterAuth/adapter.ts",
+                  "components/betterAuth/schema.ts",
+                  "src-tauri/hosted-build.mjs"
               ],
     "project":  [
                     "src/**/*.{ts,tsx,css}",
                     "convex/**/*.ts",
+                    "confect/**/*.ts", "services/**/*.ts", "components/**/*.ts", "scripts/**/*.mjs", "src-tauri/*.mjs",
                     "tests/**/*.{ts,tsx}",
                     "tooling/**/*.mjs",
                     "*.{ts,mjs}",
-                    "!src/routeTree.gen.ts"
+                    "!src/routeTree.gen.ts", "!confect/_generated/**", "!convex/_generated/**", "!components/**/_generated/**"
                 ]
 }

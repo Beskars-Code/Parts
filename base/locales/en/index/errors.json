@@ -1,0 +1,13 @@
+{
+  "errors": {
+    "AuthRequestError": "The account request failed. Check your connection and details, then try again.",
+    "NotAuthenticated": "Your session has ended. Sign in again to continue.",
+    "TaskAccessDenied": "This task is unavailable. Refresh your tasks and try again.",
+    "InvalidTaskTitle": "Enter a task title between 1 and 200 characters.",
+    "TaskLimitReached": "Your plan has no task slots left. Delete a task to free a slot.",
+    "InvalidCheckoutRequest": "The upgrade could not start. Try again.",
+    "TransportError": "The connection failed. Your edits are still here. Try again.",
+    "AdminAccessRequired": "Admin status is available only to administrators.",
+    "MissingPermission": "Your account needs an explicit admin access permission."
+  }
+}

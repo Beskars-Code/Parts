@@ -1,0 +1,10 @@
+{
+  "admin": {
+    "title": "Accès administrateur",
+    "loading": "Vérification de l'accès...",
+    "identity": "Compte connecté",
+    "access": "Accès administrateur",
+    "granted": "Autorisé",
+    "retry": "Vérifier à nouveau"
+  }
+}

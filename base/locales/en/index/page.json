@@ -1,6 +1,13 @@
 {
   "home": {
-    "title": "New project",
-    "description": "Your project starts here."
+    "title": "Your tasks",
+    "description": "Sign in to keep your tasks together.",
+    "loading": "Connecting your account...",
+    "setupTitle": "Connect your starter",
+    "setupDescription": "This example needs a real Convex backend and Better Auth.",
+    "setupUrls": "Set VITE_CONVEX_URL and VITE_CONVEX_SITE_URL in .env.local.",
+    "setupBackend": "Configure Convex and Better Auth, generate backend references, then restart the development server.",
+    "setupReload": "Check configuration",
+    "retry": "Try again"
   }
 }

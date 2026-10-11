@@ -5,10 +5,12 @@
     "type":  "module",
     "packageManager":  "bun@1.4.2",
     "scripts":  {
-                    "dev":  "bun --bun run vite --port 3000",
+                    "dev":  "bun --bun run vite --port 3000 --strictPort",
+                    "dev:all":  "bun scripts/development/dev-all.mjs",
                     "build":  "bun --bun run vite build",
                     "preview":  "bun --bun run vite preview",
                     "dev:convex":  "bun --bun run convex dev",
+                    "dev:confect":  "bun x --bun --no-install --package @confect/cli confect dev",
                     "lint":  "bun tooling/lint/run.mjs",
                     "lint:structure":  "bun tooling/lint/structure/check.mjs",
                     "lint:i18n":  "bun tooling/i18n/check.mjs",
@@ -22,9 +24,9 @@
                     "test:watch":  "vitest",
                     "check":  "bun run lint \u0026\u0026 bun run typecheck \u0026\u0026 bun run knip",
                     "agent:login":  "bun scripts/development/agent-login.mjs",
-                    "codegen:confect":  "bun --bun run confect codegen",
+                    "codegen:confect":  "bun x --bun --no-install --package @confect/cli confect codegen",
                     "lint:confect":  "bun tooling/lint/run.mjs --confect",
-                    "codegen:auth":  "cd components/betterAuth \u0026\u0026 bun --bun run auth generate --config auth.ts --output generatedSchema.ts --yes"
+                    "codegen:auth":  "bun scripts/development/generate-auth-schema.mjs"
                 },
     "dependencies":  {
                          "next-themes":  "0.4.6",
@@ -39,9 +41,7 @@
                          "@confect/server":  "10.0.0",
                          "@convex-dev/better-auth":  "0.12.5",
                          "better-auth":  "1.6.33",
-                         "convex-helpers":  "0.1.128",
-                         "effect":  "4.0.2",
-                         "@effect/platform-node":  "4.0.0"
+                         "effect":  "4.0.2"
                      },
     "devDependencies":  {
                             "@convex-dev/eslint-plugin":  "5.0.0",
@@ -68,9 +68,9 @@
                             "eslint-plugin-react-hooks":  "7.1.1",
                             "eslint-import-resolver-typescript":  "4.4.5",
                             "globals":  "17.13.0",
-                            "@confect/cli":  "10.0.0",
-                            "auth":  "1.6.33"
+                            "@confect/cli":  "10.0.0"
                         },
+    "overrides": { "convex-helpers": "0.1.128" },
     "patchedDependencies":  {
                                 "convex@1.46.0":  "patches/convex@1.46.0.patch",
                                 "@effect/language-service@0.87.4":  "patches/@effect__language-service@0.87.4.patch",

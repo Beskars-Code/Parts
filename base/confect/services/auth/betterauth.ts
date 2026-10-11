@@ -1,8 +1,7 @@
 import * as Effect from "effect/Effect";
 
 import { authComponent } from "./component";
-import { AdminAccessRequired } from "../../middleware/requireadmin.spec";
-import { NotAuthenticated } from "../../middleware/requireuser.spec";
+import { AdminAccessRequired, NotAuthenticated } from "../../../services/auth/access";
 
 import type { AuthUser } from "./authuser";
 import type { ActionCtx, MutationCtx, QueryCtx } from "../../_generated/services";

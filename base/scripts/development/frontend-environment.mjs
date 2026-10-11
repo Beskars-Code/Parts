@@ -1,4 +1,4 @@
-function frontendPort(value = "3000") {
+export function frontendPort(value = "3000") {
 	const port = value;
 	if (!/^\d+$/.test(port)) {
 		throw new Error("PORT must be an integer TCP port.");

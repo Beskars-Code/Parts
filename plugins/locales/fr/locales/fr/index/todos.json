@@ -1,0 +1,22 @@
+{
+  "todos": {
+    "newTask": "Nouvelle tâche",
+    "titlePlaceholder": "Que faut-il faire?",
+    "add": "Ajouter une tâche",
+    "adding": "Ajout en cours...",
+    "atLimit": "Toutes les places sont utilisées. Supprimer une tâche libère une place.",
+    "taskTitle": "Titre de la tâche",
+    "save": "Enregistrer",
+    "saving": "Enregistrement...",
+    "cancel": "Annuler",
+    "edit": "Modifier",
+    "delete": "Supprimer",
+    "deleting": "Suppression...",
+    "actions": "Actions pour {title}",
+    "markComplete": "Terminer {title}",
+    "markIncomplete": "Rouvrir {title}",
+    "loading": "Chargement de vos tâches...",
+    "retry": "Réessayer",
+    "listLabel": "Vos tâches"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "errors": {
+    "AuthRequestError": "La demande a échoué. Vérifiez votre connexion et vos renseignements, puis réessayez.",
+    "NotAuthenticated": "Votre session est terminée. Connectez-vous à nouveau pour continuer.",
+    "TaskAccessDenied": "Cette tâche n'est pas disponible. Actualisez vos tâches et réessayez.",
+    "InvalidTaskTitle": "Entrez un titre de tâche de 1 à 200 caractères.",
+    "TaskLimitReached": "Votre forfait est plein. Supprimez une tâche pour libérer une place.",
+    "InvalidCheckoutRequest": "Le changement de forfait n'a pas démarré. Réessayez.",
+    "TransportError": "La connexion a échoué. Vos modifications sont conservées. Réessayez.",
+    "AdminAccessRequired": "Cet écran est réservé aux administrateurs.",
+    "MissingPermission": "Votre compte doit recevoir l'autorisation d'accès administrateur."
+  }
+}

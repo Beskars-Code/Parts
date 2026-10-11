@@ -1,0 +1,6 @@
+{
+	"identifier": "main",
+	"description": "The hosted web app has no native command access.",
+	"windows": ["main"],
+	"permissions": []
+}

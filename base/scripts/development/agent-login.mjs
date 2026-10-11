@@ -5,7 +5,7 @@ import path from "node:path";
 import { applySetCookies, parseSetCookieHeader } from "better-auth/cookies";
 import { ConvexHttpClient } from "convex/browser";
 
-import { requireCloudDeployment } from "./cloud-deployment.mjs";
+import { requireAgentDeployment } from "./agent-deployment.mjs";
 import { frontendEnvironment } from "./frontend-environment.mjs";
 import { readEnvironment } from "./read-environment.mjs";
 import { api } from "../../convex/_generated/api.js";
@@ -83,8 +83,8 @@ async function signIn(environment) {
 async function agentIdentity(environment, token) {
 	const client = new ConvexHttpClient(environment.VITE_CONVEX_URL);
 	client.setAuth(token);
-	const identity = await client.query(api.auth.whoAmI, {});
-	if (identity?.email !== "cloud-agent@localhost" || identity.role !== "admin") {
+	const identity = await client.query(api.identity.whoAmI, {});
+	if (identity?.email !== "cloud-agent@localhost" || identity.role !== "admin" || identity.permissions?.["system:access"] !== true) {
 		throw new Error("The JWT did not authenticate the expected development admin.");
 	}
 	return identity;
@@ -92,12 +92,8 @@ async function agentIdentity(environment, token) {
 
 async function main() {
 	const loaded = readEnvironment();
-	const deployment = requireCloudDeployment(loaded);
 	const environment = frontendEnvironment(loaded);
-	const cloudUrl = new URL(environment.VITE_CONVEX_URL);
-	if (cloudUrl.protocol !== "https:" || cloudUrl.hostname !== `${deployment}.convex.cloud`) {
-		throw new Error("The frontend URL does not match this agent's dev deployment key.");
-	}
+	requireAgentDeployment(environment);
 	if (environment.CLOUD_AGENT_AUTH_SECRET === undefined || environment.CLOUD_AGENT_AUTH_SECRET === "") {
 		throw new Error("Configure CLOUD_AGENT_AUTH_SECRET for the isolated dev agent.");
 	}
@@ -113,7 +109,8 @@ async function main() {
 
 try {
 	await main();
-} catch {
-	console.error("Agent login failed. Check the isolated dev deployment, matching frontend port, and agent-auth configuration. No credentials were printed.");
+} catch (error) {
+	console.error(Error.isError(error) ? error.message : "Agent login failed.");
+	console.error("Check the selected dev deployment, frontend PORT, and backend ENV=dev, SITE_URL, CLOUD_AGENT_AUTH_SECRET configuration. No credentials were printed.");
 	process.exitCode = 1;
 }

@@ -16,6 +16,7 @@ export default defineConfig({
 		react(),
 	],
 	resolve: { tsconfigPaths: true },
+	ssr: { noExternal: ["@convex-dev/better-auth"] },
 	server: {
 		port: 3000,
 		strictPort: true,

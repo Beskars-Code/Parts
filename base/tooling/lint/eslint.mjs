@@ -1,11 +1,13 @@
 import { spawnSync } from "node:child_process";
-import { createReadStream, existsSync } from "node:fs";
+import { createReadStream, existsSync, realpathSync } from "node:fs";
 import { mkdtemp, rm } from "node:fs/promises";
+import { createRequire } from "node:module";
 import { tmpdir } from "node:os";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
 
-import createCLIOptions from "../../node_modules/eslint/lib/options.js";
+const optionsFile = realpathSync(new URL("../../node_modules/eslint/lib/options.js", import.meta.url));
+const requireEslint = createRequire(optionsFile);
+const createCLIOptions = requireEslint(optionsFile);
 
 function shouldCaptureReport(args) {
 	try {
@@ -46,7 +48,7 @@ async function printReport(file) {
 	}
 }
 
-const binary = fileURLToPath(new URL("../../node_modules/eslint/bin/eslint.js", import.meta.url));
+const binary = realpathSync(new URL("../../node_modules/eslint/bin/eslint.js", import.meta.url));
 const result = spawnSync(process.execPath, [binary, ...forwarded], { stdio: "inherit" });
 try {
 	await printReport(outputFile);

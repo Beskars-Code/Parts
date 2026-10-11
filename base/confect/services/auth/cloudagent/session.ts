@@ -15,11 +15,12 @@ const ensureAgent = Effect.fnUntraced(function* (adapter: AuthAdapter) {
 				name: "Cloud Agent",
 				emailVerified: true,
 				role: "admin",
+				permissions: { "system:access": true },
 			});
 		return yield* runAuthSdk(createAgent);
 	}
 	const user = existing.user;
-	return yield* "role" in user && user.role === "admin" ? Effect.succeed(user) : runAuthSdk(() => adapter.updateUser(user.id, { role: "admin" }));
+	return yield* runAuthSdk(() => adapter.updateUser(user.id, { role: "admin", permissions: { "system:access": true } }));
 });
 
 export const mintCloudAgentSession = Effect.fnUntraced(function* (adapter: AuthAdapter) {

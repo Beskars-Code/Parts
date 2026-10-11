@@ -1,0 +1,20 @@
+[package]
+name = "parts-desktop"
+version = "0.1.0"
+description = "Optional desktop shell for the Parts starter"
+edition = "2021"
+
+[lib]
+name = "parts_desktop"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+serde_json = "1"
+url = "2"
+
+[dependencies]
+tauri = { version = "2", features = [] }
+
+[features]
+custom-protocol = ["tauri/custom-protocol"]

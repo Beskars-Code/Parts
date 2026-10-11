@@ -1,0 +1,22 @@
+{
+  "todos": {
+    "newTask": "New task",
+    "titlePlaceholder": "What needs doing?",
+    "add": "Add task",
+    "adding": "Adding...",
+    "atLimit": "All task slots are used. Deleting a task frees a slot.",
+    "taskTitle": "Task title",
+    "save": "Save",
+    "saving": "Saving...",
+    "cancel": "Cancel",
+    "edit": "Edit",
+    "delete": "Delete",
+    "deleting": "Deleting...",
+    "actions": "Actions for {title}",
+    "markComplete": "Complete {title}",
+    "markIncomplete": "Reopen {title}",
+    "loading": "Loading your tasks...",
+    "retry": "Try again",
+    "listLabel": "Your tasks"
+  }
+}

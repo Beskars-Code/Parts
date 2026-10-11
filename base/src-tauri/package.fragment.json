@@ -1,0 +1,9 @@
+{
+	"scripts": {
+		"desktop:dev": "bun --bun run tauri dev",
+		"desktop:build": "bun src-tauri/hosted-build.mjs"
+	},
+	"devDependencies": {
+		"@tauri-apps/cli": "^2"
+	}
+}

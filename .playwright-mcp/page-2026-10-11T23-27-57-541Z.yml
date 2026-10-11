@@ -1,0 +1,49 @@
+- generic [ref=f1e2]:
+  - complementary [ref=f1e3]:
+    - paragraph [ref=f1e4]: Disposable recovery probe. All five services are injected.
+    - generic [ref=f1e5]:
+      - button "Reject writes" [ref=f1e6]
+      - button "Accept writes" [ref=f1e7]
+      - button "Fail session only" [ref=f1e8]
+      - button "Fail all reads" [ref=f1e9]
+      - button "Defect read" [ref=f1e10]
+      - button "Recover reads" [ref=f1e11]
+      - button "Confirm signed out" [ref=f1e12]
+  - main [ref=f1e13]:
+    - generic [ref=f1e16]:
+      - generic [ref=f1e17]:
+        - generic [ref=f1e18]:
+          - heading "Your tasks" [level=1] [ref=f1e19]
+          - paragraph [ref=f1e20]: probe@example.invalid
+        - button "Sign out" [ref=f1e22]
+      - generic [ref=f1e23]:
+        - generic [ref=f1e24]: New task
+        - generic [ref=f1e25]:
+          - textbox "New task" [ref=f1e26]:
+            - /placeholder: What needs doing?
+          - button "Add task" [ref=f1e27]
+      - list "Your tasks" [ref=f1e28]:
+        - listitem [ref=f1e29]:
+          - generic [ref=f1e30]:
+            - checkbox "Complete Existing task" [ref=f1e32]
+            - generic [ref=f1e33]: Existing task
+            - group [ref=f1e34]:
+              - generic "Actions for Existing task" [active] [ref=f1e35] [cursor=pointer]
+              - generic [ref=f1e61]:
+                - button "Edit" [ref=f1e62]
+                - button "Delete" [ref=f1e63]
+        - listitem [ref=f1e50]:
+          - generic [ref=f1e51]:
+            - checkbox "Complete Successful create after retry" [ref=f1e53]
+            - generic [ref=f1e54]: Successful create after retry
+            - group [ref=f1e55]:
+              - generic "Actions for Successful create after retry" [ref=f1e56] [cursor=pointer]
+      - region "Your plan" [ref=f1e41]:
+        - generic [ref=f1e42]:
+          - generic [ref=f1e43]:
+            - paragraph [ref=f1e44]: Free plan
+            - paragraph [ref=f1e45]: 1 of 5 task slots used
+          - button "Simulate Pro upgrade" [ref=f1e46]
+        - paragraph [ref=f1e47]: Billing demo. No payment is taken. Completed tasks still use a slot.
+      - group [ref=f1e48]:
+        - generic "Admin status" [ref=f1e49] [cursor=pointer]
