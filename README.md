@@ -8,12 +8,18 @@ Parts is a source of conventions and building blocks. In a new repository, I sho
 
 ## Start here
 
-To start a project with a coding agent, give it the [project-start guide](instructions/start-project.md):
+Copy and paste this prompt into your coding agent. It uses [this Parts repository](https://github.com/Beskars-Code/Parts) and the [project-start guide](instructions/start-project.md):
 
 ```text
-Follow <path-to-Parts>/instructions/start-project.md.
-Start a project in <destination-path>. Ask me which Parts I need, explain
-the tradeoffs, then set up and verify the choices I make. Do not publish it.
+Use https://github.com/Beskars-Code/Parts to initialize my project.
+Read its README.md, AGENTS.md, and instructions/start-project.md.
+Ask me for any missing project name, destination, and Parts choices.
+Explain the tradeoffs and confirm my choices before changing files.
+Then set up the agreed base and parts, following their READMEs, and verify
+the result. Preserve existing work and the stack of an existing project.
+Use a separate source checkout; do not create the app inside Parts.
+If you cannot access the repo, ask me for access or a local checkout first.
+Do not commit, push, publish, or deploy unless I explicitly ask.
 ```
 
 The guide interviews you about development mode, billing, languages, native targets, hosting, UI parts, and guarded agent access. It reuses supplied choices, confirms the selection, and then creates a new project or merges selected parts into an existing one. It is a Markdown workflow for your existing agent.
