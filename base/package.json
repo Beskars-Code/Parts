@@ -5,12 +5,12 @@
     "type":  "module",
     "packageManager":  "bun@1.4.2",
     "scripts":  {
-                    "dev":  "bun --bun run vite --port 3000 --strictPort",
+                    "dev":  "bun --no-env-file node_modules/vite/bin/vite.js --port 3000 --strictPort",
                     "dev:all":  "bun scripts/development/dev-all.mjs",
-                    "build":  "bun --bun run vite build",
-                    "preview":  "bun --bun run vite preview",
-                    "dev:convex":  "bun --bun run convex dev",
-                    "dev:confect":  "bun x --bun --no-install --package @confect/cli confect dev",
+                    "build":  "bun scripts/deployment/build.mjs",
+                    "preview":  "bun --no-env-file node_modules/vite/bin/vite.js preview",
+                    "dev:convex":  "bun --no-env-file node_modules/convex/bin/main.js dev",
+                    "dev:confect":  "bun --no-env-file scripts/development/confect.mjs dev",
                     "lint":  "bun tooling/lint/run.mjs",
                     "lint:structure":  "bun tooling/lint/structure/check.mjs",
                     "lint:i18n":  "bun tooling/i18n/check.mjs",
@@ -21,12 +21,19 @@
                     "typecheck":  "bun --bun run tsc --noEmit",
                     "knip":  "bun ./node_modules/knip/bin/knip.js --config knip.json",
                     "test":  "vitest run",
+                    "test:e2e":  "bun --no-env-file scripts/testing/e2e.mjs",
                     "test:watch":  "vitest",
                     "check":  "bun run lint \u0026\u0026 bun run typecheck \u0026\u0026 bun run knip",
                     "agent:login":  "bun scripts/development/agent-login.mjs",
-                    "codegen:confect":  "bun x --bun --no-install --package @confect/cli confect codegen",
+                    "codegen:confect":  "bun --no-env-file scripts/development/confect.mjs codegen",
                     "lint:confect":  "bun tooling/lint/run.mjs --confect",
-                    "codegen:auth":  "bun scripts/development/generate-auth-schema.mjs"
+                    "codegen:auth":  "bun --no-env-file scripts/development/generate-auth-schema.mjs",
+                    "dev:cloud":  "bun scripts/development/dev-all.mjs cloud",
+                    "dev:anonymous":  "bun scripts/development/dev-all.mjs anonymous",
+                    "build:vercel":  "bun scripts/deployment/build.mjs --provider vercel",
+                    "deploy:vercel":  "bun scripts/deployment/deploy.mjs --provider vercel",
+                    "build:cloudflare":  "bun scripts/deployment/build.mjs --provider cloudflare",
+                    "deploy:cloudflare":  "bun scripts/deployment/deploy.mjs --provider cloudflare"
                 },
     "dependencies":  {
                          "next-themes":  "0.4.6",
@@ -44,6 +51,8 @@
                          "effect":  "4.0.2"
                      },
     "devDependencies":  {
+                            "e2e":  "0.19.0",
+                            "@e2e-dev/web":  "0.14.0",
                             "@convex-dev/eslint-plugin":  "5.0.0",
                             "@effect/language-service":  "0.87.4",
                             "@eslint/js":  "9.39.5",
@@ -70,7 +79,9 @@
                             "globals":  "17.13.0",
                             "@confect/cli":  "10.0.0"
                         },
-    "overrides": { "convex-helpers": "0.1.128" },
+    "overrides":  {
+                      "convex-helpers":  "0.1.128"
+                  },
     "patchedDependencies":  {
                                 "convex@1.46.0":  "patches/convex@1.46.0.patch",
                                 "@effect/language-service@0.87.4":  "patches/@effect__language-service@0.87.4.patch",

@@ -8,14 +8,28 @@ Parts is a source of conventions and building blocks. In a new repository, I sho
 
 ## Start here
 
+To start a project with a coding agent, give it the [project-start guide](instructions/start-project.md):
+
+```text
+Follow <path-to-Parts>/instructions/start-project.md.
+Start a project in <destination-path>. Ask me which Parts I need, explain
+the tradeoffs, then set up and verify the choices I make. Do not publish it.
+```
+
+The guide interviews you about development mode, billing, languages, native targets, hosting, UI parts, and guarded agent access. It reuses supplied choices, confirms the selection, and then creates a new project or merges selected parts into an existing one. It is a Markdown workflow for your existing agent.
+
 | Part | What to bring over |
 | --- | --- |
 | [base/](base/README.md) | Connected todo starter, Effect service boundaries, TanStack/Vite config, strict tooling, patches, and setup instructions |
 | [plugins/auth/](plugins/auth/README.md) | Better Auth/Confect integration, roles and permissions, and development admin login |
 | [plugins/stripe/](plugins/stripe/README.md) | Code-owned Stripe catalog scripts, backend mirrors, and billing adaptation references |
 | [plugins/locales/fr/](plugins/locales/fr/README.md) | Opt-in French catalog and language switcher; the base starts in English |
+| [UI parts](ui/README.md) | Individually copyable UI, starting with Apollo's cookie banner and blank policy links |
 | [Test layout](base/tests/README.md) | Route and source-owner folders with Vitest and the accepted starter service cases |
+| [TesterArmy E2E](base/instructions/e2e.md) | Chromium setup and a real development-agent login case, without model configuration |
 | [Optional native shell](base/src-tauri/README.md) | Tauri 2 source template, selected-only dependency fragment, and hosted-server setup |
+| [Vercel SSR hosting](plugins/deployment-vercel/README.md) | Optional Nitro adapter, pinned CLI, and explicit project/runtime deployment |
+| [Cloudflare Workers SSR hosting](plugins/deployment-cloudflare/README.md) | Optional Workers adapter, named target configs, and runtime secret delivery |
 | [Convex test environment](plugins/testing/convex/README.md) | Optional backend test dependencies and edge-runtime configuration |
 | [Verification template](base/verifications/README.md) | Plain Markdown runbook, feature recipes, and evidence conventions outside `docs/` |
 | [Importing guide](docs/importing.md) | How agents select, merge, configure, and verify parts |
@@ -29,6 +43,8 @@ Structure lint also warns and fails when a handwritten code file exceeds **1,000
 `base/` is the copyable starting repo. After generating auth and Confect code, then creating and configuring its own Convex deployment, the destination runs the todo app with real authentication and persistence. Free accounts can store 5 tasks; the explicitly fake upgrade raises the cap to 25. Completed tasks still count until deleted. The admin panel is read-only and requires both the admin role and a `system:access` permission equal to `true`. Parts itself remains a catalog. Follow [instructions/start-project.md](instructions/start-project.md) to connect and verify a destination.
 
 The [development guide](base/instructions/development.md) owns initial setup and the guarded admin login. A configured development deployment can start through `bun run dev:all` when its existing watchers are stopped. Convex account/deployment selection and the app's Better Auth users are separate identities.
+
+The [build/deployment guide](base/scripts/deployment/README.md) owns validated Convex-sourced app variables and build generation. Plain `build` performs no publishing. Selected hosting modules add SSR output and deployment commands that require an explicit staging/production target. These are implemented templates; matching provider dependencies and actual hosted behavior still need destination verification.
 
 Vite forwards browser console logs and unhandled errors into the dev terminal by default in this base, so agents can inspect frontend and server output together.
 
@@ -64,6 +80,8 @@ The theme-derived shader is included in the web starter. The optional Tauri shel
 - **Agent guidance:** how to select, import, configure, and verify those parts in a destination repository.
 
 The baseline should stay small. Each optional capability should have a clear entry point, own its dependencies and behavior, and explain how it connects to the baseline.
+
+The [UI collection](ui/README.md) keeps optional visual parts separate from the base and backend plugins. Ask an agent to bring over a selected `ui/<part>/` folder using its README. The [cookie banner](ui/cookie-banner/README.md) is a React renderer with destination-owned consent callbacks; its privacy link starts blank, and no legal pages are included.
 
 ## Reusable modules
 

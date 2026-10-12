@@ -15,6 +15,7 @@ UI and UX do / don't for the Parts starter.
 - Keep Apollo's content blur and global theme reveal, with reduced-motion fallbacks and persistent app chrome outside page motion.
 - Start in English using typed, route-owned locale catalogs; add French only when the project requests it.
 - Add product-specific UI rules in the destination's `docs/design.md`.
+- Keep the cookie banner compact at the bottom, make Reject all and Accept all equally accessible, and leave blank policy destinations as inactive text.
 
 ## Don't
 

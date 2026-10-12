@@ -1,0 +1,10 @@
+{
+	"cookieBanner": {
+		"title": "Cookies",
+		"description": "Essential cookies keep you signed in. Analytics cookies stay off unless you allow them.",
+		"rejectAll": "Reject all",
+		"acceptAll": "Accept all",
+		"manageCookies": "Manage cookies",
+		"privacyPolicy": "Privacy policy"
+	}
+}

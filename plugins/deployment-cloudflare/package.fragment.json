@@ -1,0 +1,10 @@
+{
+  "scripts": {
+    "build:cloudflare": "bun scripts/deployment/build.mjs --provider cloudflare",
+    "deploy:cloudflare": "bun scripts/deployment/deploy.mjs --provider cloudflare"
+  },
+  "devDependencies": {
+    "@cloudflare/vite-plugin": "1.63.1",
+    "wrangler": "4.149.0"
+  }
+}

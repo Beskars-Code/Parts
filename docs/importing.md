@@ -10,6 +10,8 @@ The runnable base uses Better Auth email/password login and real Convex persiste
 
 Copy `base/` contents to the destination root and merge the selected `plugins/<name>/` import sets into their documented paths. Merge `scripts`, dependencies, dev dependencies, and patched dependencies from each package fragment; preserve unrelated destination fields. Copy matching patch files and resolve conflicting versions explicitly.
 
+Select visual parts separately from the [UI collection](../ui/README.md). Read the selected `ui/<part>/README.md`, copy its documented component/style/catalog set, and connect its public props to the destination's existing owner. Do not mount every UI part by default. The cookie banner keeps policy destinations blank until supplied and leaves consent storage, settings, and tracking to the destination; importing its UI is not proof that analytics obeys consent.
+
 When renaming the destination package, adapt its [Effect service identifier prefixes](../base/docs/services.md#rename-the-destination) in the same edit so strict deterministic-key diagnostics keep matching the package name.
 
 Create the destination's actual TanStack routes and backend registrations. Regenerate all schemas and function references there. Do not carry Apollo generated code, its application lockfile, credentials, or product data into another project. A plugin's `reference/` directory provides source evidence for adaptation, not finished destination code.

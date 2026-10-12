@@ -1,0 +1,4 @@
+{
+  "entry": ["deployment/vercel/vite.config.ts"],
+  "project": ["deployment/vercel/**/*.ts"]
+}

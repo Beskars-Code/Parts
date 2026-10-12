@@ -14,7 +14,8 @@ export class DevelopmentProcesses {
 	get stopping() { return this.#stopping; }
 
 	start(name, args, environment = process.env) {
-		const child = spawn(process.execPath, args, { stdio: "inherit", env: environment, detached: process.platform !== "win32" });
+		this.signal.throwIfAborted();
+		const child = spawn(process.execPath, ["--no-env-file", ...args], { stdio: "inherit", env: environment, detached: process.platform !== "win32" });
 		this.#children.add(child);
 		child.once("error", () => this.#controller.abort(new Error(`${name} could not start. Check the installed destination dependencies.`)));
 		child.once("exit", (code, signal) => {
@@ -26,8 +27,9 @@ export class DevelopmentProcesses {
 		return child;
 	}
 
-	async run(name, args) {
-		const child = spawn(process.execPath, args, { stdio: "inherit", detached: process.platform !== "win32" });
+	async run(name, args, environment = process.env) {
+		this.signal.throwIfAborted();
+		const child = spawn(process.execPath, ["--no-env-file", ...args], { stdio: "inherit", env: environment, detached: process.platform !== "win32" });
 		this.#children.add(child);
 		await new Promise((resolve, reject) => {
 			child.once("error", () => reject(new Error(`${name} could not start. Install destination dependencies first.`)));

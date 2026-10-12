@@ -13,7 +13,7 @@ Keep tests with the route or reusable owner they protect. The base includes runn
 
 The table's paths are relative to `tests/`. Create new owner folders when there is an accepted case to put there. Route groups describe source ownership even when they do not appear in the URL. Keep `$projectId` as a folder name rather than substituting a fixture ID. Normalize flat route filenames into the same nested owner path: `settings.profile.tsx` belongs to `tests/routes/settings/profile/`. Shared route-layout behavior belongs to its layout owner, such as `tests/routes/__root/`.
 
-Name case files after behavior, ending in `.test.ts` or `.test.tsx`. Unit and integration cases for one owner stay together; do not create parallel top-level `unit/`, `integration/`, or `e2e/` trees. Non-route domain services and tools follow the same owner-mirroring rule under `tests/services/` or `tests/tooling/` when needed.
+Name case files after behavior, ending in `.test.ts` or `.test.tsx` for Vitest and `.e2e.ts` for TesterArmy. Cases for one owner stay together; do not create parallel top-level `unit/`, `integration/`, or `e2e/` trees. Non-route domain services and tools follow the same owner-mirroring rule under `tests/services/` or `tests/tooling/` when needed.
 
 ## Runner
 
@@ -21,4 +21,6 @@ Name case files after behavior, ending in `.test.ts` or `.test.tsx`. Unit and in
 
 An explicit `bun run test --passWithNoTests` may check runner discovery while the scaffold is empty. Report it as a configuration smoke check with zero behavior coverage; keep the default command's no-tests failure.
 
-The optional Parts `plugins/testing/convex/` module supplies the dependency fragment and edge-runtime project configuration for real backend tests. Browser driving stays in [verifications/](../verifications/README.md) until the destination selects a browser harness. No browser runner is installed by this test foundation.
+The optional Parts `plugins/testing/convex/` module supplies the dependency fragment and edge-runtime project configuration for real backend tests.
+
+[e2e.config.ts](../e2e.config.ts) runs `tests/**/*.e2e.ts` with TesterArmy's web engine. `bun run test:e2e` runs the accepted agent-login case against the configured development app. It requires a supported Node runtime and the real guarded agent prerequisites. Follow [the E2E job](../instructions/e2e.md) for setup, private reports, and recovery. The configured runners have separate discovery patterns; run both commands to verify all accepted cases. Additional live recipes remain in [verifications/](../verifications/README.md).

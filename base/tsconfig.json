@@ -114,6 +114,7 @@
     "convex/**/*.ts",
     "vite.config.ts",
     "vitest.config.ts",
+    "e2e.config.ts",
     "tests/**/*.ts",
     "tests/**/*.tsx"
   ],

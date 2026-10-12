@@ -15,6 +15,7 @@ Agents follow the project [instructions](instructions/README.md). Generate auth 
 - Editable shadcn-compatible theme tokens, a persisted Light/Dark/System picker, page/theme transitions, and a quiet WebGL shader derived from the same palette.
 - English-default `use-intl` messages, typed translation keys, and server-delivered route catalogs adapted from Apollo Labs.
 - A [route and owner-based test layout](tests/README.md) with Vitest 5.0.3 and the accepted starter service behavior cases.
+- [TesterArmy E2E](instructions/e2e.md) with a Chromium runner and one guarded agent-login case, without model configuration.
 - Matching Convex and Effect language-service patches from Apollo.
 - Project agent instructions, architecture and design documentation, and a [plain Markdown verification template](verifications/README.md) outside `docs/`.
 
@@ -35,6 +36,8 @@ New users have the `user` role and no admin permission. Provision an admin role 
 | Command | Purpose |
 | --- | --- |
 | `bun run dev:all` | Generate auth/Confect schemas and start owned Convex, Confect, and Vite processes for a configured development deployment |
+| `bun run dev:cloud` | Fetch app variables from the selected cloud dev deployment, then start the owned development processes |
+| `bun run dev:anonymous` | Seed an owned anonymous backend from `.env.local`, start development, and restore the source file on stop |
 | `bun run dev` | Start the destination TanStack app on port 3000 |
 | `bun run dev:convex` | Start the destination Convex watcher |
 | `bun run dev:confect` | Watch Confect contracts and regenerate destination backend registrations |
@@ -51,12 +54,15 @@ New users have the `user` role and no admin permission. Provision an admin role 
 | `bun run knip` | Find unused source, exports, dependencies, and unresolved imports |
 | `bun run check` | Run lint, typecheck, and Knip |
 | `bun run test` | Run the destination's accepted Vitest cases once |
+| `bun run test:e2e` | Run the accepted agent-login case in Chromium against the running development app |
 
 Optional module fragments add commands such as `stripe:check` and `desktop:dev`. Add or extend tests only after the user accepts the specific cases. If a destination removes the example cases, a "No test files found" exit is missing coverage, not a passing suite.
 
 Vite's [browser console forwarding](https://vite.dev/config/server-options#server-forwardconsole) is explicitly enabled for `log`, `info`, `warn`, `error`, and `debug`, plus uncaught errors and unhandled rejections. Agents can read client-side events alongside server logs in the development terminal. The dev server fails if its chosen port is occupied instead of silently moving to another origin.
 
 ## Quality policy
+
+The [build/deployment guide](scripts/deployment/README.md) describes `bun run build`, required Convex app variables, source generation, and build environment isolation. Optional Vercel and Cloudflare Workers modules in Parts add `build:vercel` / `build:cloudflare` and explicit `deploy:* --target staging|production --env-file <path>` commands. A plain build never publishes. Import a selected module's static adapter, pinned dependency and Knip fragments, and follow its provider README before claiming hosted runtime support.
 
 Cyclomatic complexity is capped at **6** in ESLint and Oxlint. Both treat violations as errors. Warnings and unused suppression directives fail, and inline lint configuration is disabled. Full ESLint remains a deliberate fallback for rules Oxlint does not cover.
 

@@ -62,7 +62,8 @@ async function signIn(environment) {
 	const origin = environment.SITE_URL;
 	const response = await request(`${origin}/api/auth/cloud-agent-sign-in`, {
 		method: "POST",
-		headers: { Authorization: `Bearer ${environment.CLOUD_AGENT_AUTH_SECRET}`, Origin: origin },
+		headers: { Authorization: `Bearer ${environment.CLOUD_AGENT_AUTH_SECRET}`, Origin: origin, "Content-Type": "application/json" },
+		body: JSON.stringify({}),
 	});
 	const cookies = response.headers.getSetCookie();
 	if (cookies.length === 0) {

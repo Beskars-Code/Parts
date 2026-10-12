@@ -1,0 +1,12 @@
+diff --git a/dist/vite.mjs b/dist/vite.mjs
+--- a/dist/vite.mjs
++++ b/dist/vite.mjs
+@@ -449,7 +449,7 @@ async function setupNitroContext(ctx, configEnv, userConfig) {
+ 	if (providedNitro) providedNitro.options.virtual[vServicesId] = nitroConfig.virtual[vServicesId];
+ 	const dotenvFileNames = [".env", ".env.local"];
+ 	if (configEnv.mode) dotenvFileNames.push(`.env.${configEnv.mode}`, `.env.${configEnv.mode}.local`);
+-	ctx.nitro = providedNitro || await createNitro(nitroConfig, { dotenv: { fileName: dotenvFileNames } });
++	ctx.nitro = providedNitro || await createNitro(nitroConfig, { dotenv: userConfig.envDir === false ? false : { fileName: dotenvFileNames } });
+ 	if (providedNitro && pluginModules.length > 0) {
+ 		providedNitro.options.modules = nitroConfig.modules;
+ 		await installModules(providedNitro, pluginModules);

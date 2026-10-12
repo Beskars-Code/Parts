@@ -9,6 +9,7 @@ Use Bun and the scripts in `package.json`. The starter uses TanStack Start, Reac
 - [instructions/README.md](instructions/README.md): repeatable agent jobs.
 - [verifications/README.md](verifications/README.md): plain Markdown starter recipes; record the destination's setup and real results before calling it verified.
 - [tests/README.md](tests/README.md): route and source-owner placement for accepted automated cases.
+- [instructions/e2e.md](instructions/e2e.md): TesterArmy web setup and the accepted development-agent browser login, without model configuration.
 
 ## Quality
 
@@ -37,7 +38,7 @@ Use Bun and the scripts in `package.json`. The starter uses TanStack Start, Reac
 
 ## Verify and report
 
-Read running frontend and Convex terminals before launching duplicate processes. Vite forwards all browser console levels and unhandled errors into the development terminal; keep that setting enabled and inspect those logs during verification. Run `bun run check` for the integrated app and the project's existing test suites. Follow `verifications/README.md` to exercise affected real flows; static checks alone do not prove login or billing.
+Read running frontend and Convex terminals before launching duplicate processes. Vite forwards all browser console levels and unhandled errors into the development terminal; keep that setting enabled and inspect those logs during verification. Run `bun run check` for the integrated app, `bun run test` for the accepted service cases, and `bun run test:e2e` for the accepted agent-login case. The E2E runner uses Node and a real development session; do not replace the flow with a mock. Follow `verifications/README.md` to exercise affected real flows; static checks alone do not prove login or billing.
 
 Keep reusable verification instructions as plain Markdown in `verifications/`, including feature recipes and owned scripts. Put local screenshots, logs, and other run evidence in the separate `.verifications/` directory. `docs/` contains maintained product, design, and architecture information.
 

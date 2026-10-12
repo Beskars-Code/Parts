@@ -1,0 +1,13 @@
+{
+  "$schema": "../../node_modules/wrangler/config-schema.json",
+  "name": "configure-parts-worker",
+  "main": "@tanstack/react-start/server-entry",
+  "compatibility_date": "2026-10-11",
+  "compatibility_flags": ["nodejs_compat"],
+  "observability": { "enabled": true },
+  "env": {
+    "development": { "name": "configure-parts-worker-development" },
+    "staging": { "name": "configure-parts-worker-staging" },
+    "production": { "name": "configure-parts-worker-production" }
+  }
+}

@@ -4,6 +4,8 @@ Keep repeatable project operations here, such as importing a module or maintaini
 
 App verification belongs in the plain Markdown runbook under `verifications/`, with feature recipes in `verifications/features/`. Do not create `docs/verification.md` or keep a second copy of the verification runbook here. Local run evidence belongs in the separate `.verifications/` directory.
 
+Follow [e2e.md](e2e.md) for the included TesterArmy web runner. `bun run test:e2e` runs the accepted development-agent login case with exact locators and no model configuration.
+
 When importing a Parts module, read its README, merge its package fragment and patches, connect its public entry points, regenerate destination code, then exercise the imported behavior. A copied directory alone is not a completed integration.
 
 The baseline already supplies English `use-intl` catalogs, persisted theme selection, and page/theme transitions. Keep those owners when replacing the starter page. Put copy in nested `locales/<locale>/<route-owner>/` folders, load catalogs through route server functions, and supply providers from loader data. Keep runtime JSON imports server-only. Use `plugins/locales/fr/` from Parts only when French is requested, preserve English as the default, and run `bun run lint:i18n` after catalog changes.

@@ -24,6 +24,8 @@ Store local screenshots, logs, response bodies, and recorded resulting state in 
 
 Static validation is `bun run check` plus every populated repository test suite. The base includes three accepted service cases and [test placement guides](../tests/README.md). If no cases remain in the destination, record a no-tests exit as missing coverage, never a pass. Live evidence must show the affected operation and its resulting state; a build or screenshot of an unchanged screen is insufficient.
 
+Run `bun run test` for the Vitest service cases and `bun run test:e2e` for the TesterArmy agent-login case. The [E2E job](../instructions/e2e.md) owns its setup. The browser case uses the real guarded session and writes private reports under `.verifications/e2e/`; a skipped or unavailable browser run is a verification gap.
+
 ## Cleanup
 
 Stop only processes this run started. Remove this run's private login files and temporary session state after use. Preserve proof artifacts at the named evidence location. Never kill by process name or remove a shared instance's state.

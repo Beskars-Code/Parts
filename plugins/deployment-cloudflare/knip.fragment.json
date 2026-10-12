@@ -1,0 +1,4 @@
+{
+  "entry": ["deployment/cloudflare/vite.config.ts"],
+  "project": ["deployment/cloudflare/**/*.ts"]
+}
