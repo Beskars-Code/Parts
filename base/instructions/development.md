@@ -12,9 +12,9 @@ This guide owns the starter's setup and development-agent contract. The Convex C
 
 ## Start a configured development session
 
-When the existing watchers are stopped, run `bun run dev:all`. It requires an already selected development target: `CONVEX_DEPLOYMENT` beginning with `anonymous:`, `local:`, or `dev:`, or a development `CONVEX_DEPLOY_KEY`. Production targets are rejected.
+When the existing watchers are stopped, run `bun run dev:all`. It requires an already selected development target: `CONVEX_DEPLOYMENT` beginning with `anonymous:`, `local:`, or `dev:`, or a development `CONVEX_DEPLOY_KEY`. Production targets and contradictory deployment/key selections are rejected. A local or anonymous selection cannot use a cloud key; a supplied cloud key must match the selected development deployment. Normal logged-in cloud startup can use its selected `dev:` deployment without a key. A configured cloud API URL must match that selected deployment name or key.
 
-The command checks the frontend port and the configured local backend API port on IPv4 and IPv6 loopback before generation. Occupied ports stop startup. When retaining an existing watcher, start only the missing individual commands instead of launching the aggregate.
+Before generation, the command checks the frontend port and validates both configured local backend origins, `VITE_CONVEX_URL` and `VITE_CONVEX_SITE_URL`, as HTTP loopback origins without paths. It checks both API and HTTP-site ports on IPv4 and IPv6 loopback. An invalid origin or occupied port stops startup. When retaining an existing watcher, start only the missing individual commands instead of launching the aggregate.
 
 `dev:all` runs auth generation, then Confect generation, starts the Convex and Confect watchers, waits for the backend API's `/version` response, and starts Vite on the requested strict port. `PORT` defaults to 3000. The frontend process receives the corresponding loopback `SITE_URL` and public Convex site endpoint; configure the backend's `SITE_URL` to that same frontend origin.
 
@@ -39,7 +39,7 @@ Configure these prerequisites intentionally:
 
 For local or anonymous development, `CONVEX_DEPLOYMENT` must identify the selected `anonymous:` or `local:` deployment. Both `VITE_CONVEX_URL` and `VITE_CONVEX_SITE_URL` must be HTTP loopback origins without paths. Keep a cloud `CONVEX_DEPLOY_KEY` unset for that branch.
 
-For hosted development, supply a deployment-scoped `dev:` `CONVEX_DEPLOY_KEY` in the private agent process. `VITE_CONVEX_URL` must be the exact matching HTTPS `<deployment>.convex.cloud` origin. The backend guard still requires the development environment and loopback frontend `SITE_URL`; a cloud deployment does not make the application bypass available in production.
+For hosted agent login, supply a deployment-scoped `dev:` `CONVEX_DEPLOY_KEY` in the private agent process. If `CONVEX_DEPLOYMENT` is set, it must select that same development deployment. `VITE_CONVEX_URL` must be the exact matching HTTPS `<deployment>.convex.cloud` origin. The backend guard still requires the development environment and loopback frontend `SITE_URL`; a cloud deployment does not make the application bypass available in production.
 
 The CLI prints the verified origin, email, role, and paths to private temporary credentials/browser state. It does not print the cookie or token. Use the active browser harness's supported session-import mechanism to apply that state, then exercise the real admin panel. Remove the temporary credentials after use. A failed guard, mismatched deployment/secret, or unavailable app returns an actionable error and a nonzero exit.
 
