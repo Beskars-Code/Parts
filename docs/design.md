@@ -12,6 +12,7 @@ UI and UX do / don't for the Parts starter.
 - Use a quiet shader background derived from the theme tokens, with reduced-motion and WebGL fallbacks, and pause motion in hidden tabs.
 - Use Tailwind and a small system-font baseline.
 - Keep editable shadcn-compatible light/dark tokens in the base stylesheet, with system mode and explicit root overrides.
+- Use [DitherCN](../ui/dithercn/README.md) as an optional reference for future dithered designs; fit selected treatments to the destination's theme, keep content readable, and preserve reduced motion and static fallbacks.
 - Keep Apollo's content blur and global theme reveal, with reduced-motion fallbacks and persistent app chrome outside page motion.
 - Start in English using typed, route-owned locale catalogs; add French only when the project requests it.
 - Add product-specific UI rules in the destination's `docs/design.md`.

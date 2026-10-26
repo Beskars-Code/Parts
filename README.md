@@ -30,7 +30,7 @@ The guide interviews you about development mode, billing, languages, native targ
 | [plugins/auth/](plugins/auth/README.md) | Better Auth/Confect integration, roles and permissions, and development admin login |
 | [plugins/stripe/](plugins/stripe/README.md) | Code-owned Stripe catalog scripts, backend mirrors, and billing adaptation references |
 | [plugins/locales/fr/](plugins/locales/fr/README.md) | Opt-in French catalog and language switcher; the base starts in English |
-| [UI parts](ui/README.md) | Individually copyable UI, starting with Apollo's cookie banner and blank policy links |
+| [UI parts](ui/README.md) | Apollo's copyable cookie banner and the optional DitherCN styling reference for future designs |
 | [Test layout](base/tests/README.md) | Route and source-owner folders with Vitest and the accepted starter service cases |
 | [TesterArmy E2E](base/instructions/e2e.md) | Chromium setup and a real development-agent login case, without model configuration |
 | [Optional native shell](base/src-tauri/README.md) | Tauri 2 source template, selected-only dependency fragment, and hosted-server setup |
@@ -88,6 +88,8 @@ The theme-derived shader is included in the web starter. The optional Tauri shel
 The baseline should stay small. Each optional capability should have a clear entry point, own its dependencies and behavior, and explain how it connects to the baseline.
 
 The [UI collection](ui/README.md) keeps optional visual parts separate from the base and backend plugins. Ask an agent to bring over a selected `ui/<part>/` folder using its README. The [cookie banner](ui/cookie-banner/README.md) is a React renderer with destination-owned consent callbacks; its privacy link starts blank, and no legal pages are included.
+
+The [DitherCN styling guide](ui/dithercn/README.md) keeps its dither engine, examples, and agent workflow available as an optional design reference. Follow the guide to install and adapt selected upstream items in a destination; its engine is not bundled in Parts.
 
 ## Reusable modules
 

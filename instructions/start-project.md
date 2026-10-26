@@ -83,6 +83,8 @@ The sample reply shows the format, not a required subset. Ask the developer to a
 
 Real Stripe, Tauri, and consent UI need destination-specific integration. Ask the dependent questions after selection: the actual payment plans, native platforms/server strategy, or consent storage/settings owner. A Tauri shell is not an offline packaged app. The cookie banner does not implement tracking controls by itself. Selecting a host authorizes preparing its adapter, not publishing an account or deployment.
 
+When the developer wants a visual direction, offer [DitherCN styling](../ui/dithercn/README.md) for dithered backgrounds, chart fills, text, or images. Settle the treatment and placement before installing it. This is an optional upstream integration reference; it requires destination shadcn setup and source adaptation and is not included in the base.
+
 WorkOS, OpenRouter, shadcn components, and other absent modules are separate implementation requests, not ready installation choices. Explain what exists and what still needs to be built if the developer requests one. Optional [Convex test support](../plugins/testing/convex/README.md) is selected only when accepted backend cases need it; propose specific new cases before writing them, not a blanket test category.
 
 When choices are complete, announce a separate `Locked in (tell me if this is wrong)` summary: destination/name, new versus merge, initial screen, selected development mode, included and excluded parts, agent access, required private setup, and concrete completion checks. Include only relevant fields. Keep that selection in the conversation and reuse it during setup; do not create a hidden plan or questionnaire file in the destination.
@@ -128,6 +130,7 @@ Keep Vite's browser console forwarding enabled. Read browser logs and unhandled 
 | Vercel | Follow [plugins/deployment-vercel/](../plugins/deployment-vercel/README.md), merging its matching adapter, dependency, patch, and configuration fragments; verify the destination build before any separately authorized publishing |
 | Cloudflare Workers | Follow [plugins/deployment-cloudflare/](../plugins/deployment-cloudflare/README.md), merging its Workers SSR adapter, dependency and named target configuration; this is not a static Pages export |
 | Cookie banner | Follow [ui/cookie-banner/](../ui/cookie-banner/README.md), copy its renderer/styles/English catalog, keep policy links blank, and connect the selected destination consent/settings owner |
+| DitherCN styling | Follow [ui/dithercn/](../ui/dithercn/README.md), configure destination shadcn if needed, install only selected upstream items, and adapt their source to the existing theme, structure limits, SSR, and accessibility requirements |
 | shadcn, AI, another component | Inspect source and provider instructions, install only selected dependencies, and implement the destination integration; report absent Parts modules explicitly |
 
 For each available module, merge `package.fragment.json` fields and copy its patches and import set. Reconcile shared files once. Keep `reference/` source out of the app until its product dependencies have been replaced. Extend Knip's real runtime entries for newly registered backend modules without exempting ordinary services.
