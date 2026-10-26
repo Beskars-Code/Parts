@@ -25,6 +25,8 @@ Localization and test-owner conventions are adapted from [Beskars-Code/Apollo-La
 
 ## New conventions
 
+The [DitherCN styling reference](../ui/dithercn/README.md) was authored from the [published docs](https://dithercn.dev/docs), installation/theming/performance guides, and the `dither-core`, `dithercn-skill`, and `dither-gradient` registry items inspected on 2026-10-26. It keeps upstream links and destination adaptation instructions, including the engine folder's required split for the eight-file limit. No DitherCN runtime source, agent skill, or site assets were vendored; adoption and visual verification remain destination work.
+
 Apollo separated `docs/` and `instructions/` but kept a verification document in `docs/`. Parts keeps its verification runbook and feature recipes as plain Markdown under `verifications/`, outside that tree. The guide follows the launch, doctor, drive, evidence, and cleanup sequence inspired by [pstack's verification approach](https://github.com/backnotprop/pstack/blob/main/skills/create-verification-skill/SKILL.md), without packaging the guide as an agent skill. It remains an import template until specialized and exercised in a real app; local run evidence belongs in the separate `.verifications/` directory.
 
 Project agent instructions and folder ownership documentation were authored for Parts. Apollo had no tracked `AGENTS.md` in the pinned snapshot. TanStack/Vite package versions were checked against npm registry metadata, including Start/Router and Vite/React-plugin compatibility.
